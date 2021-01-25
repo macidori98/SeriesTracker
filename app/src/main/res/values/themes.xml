@@ -17,8 +17,4 @@
     <style name="MyButton" parent="Widget.AppCompat.Button.Colored">
         <item name="background">@drawable/background_button</item>
     </style>
-
-    <style name="SpinnerTheme" parent="android:Widget.Spinner">
-        <item name="android:background">@drawable/background_spinner</item>
-    </style>
 </resources>

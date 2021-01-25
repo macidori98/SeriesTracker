@@ -45,17 +45,17 @@
         tools:listitem="@layout/cardview_series" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/floatingActionButtonAddSeries"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:tint="@color/white"
-        android:src="@drawable/ic_baseline_add_24"
-        app:borderWidth="0dp"
-        android:backgroundTint="@color/secondaryDarkColor"
         android:layout_margin="20dp"
+        android:backgroundTint="@color/secondaryDarkColor"
         android:clickable="true"
+        android:contentDescription="@string/add_series"
+        android:src="@drawable/ic_baseline_add_24"
+        android:tint="@color/white"
+        app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="@string/add_series" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <ImageButton
         android:id="@+id/imageButtonClose"
@@ -35,52 +35,46 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
+    <EditText
+        android:id="@+id/editTextTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/buttonAddSeries"
-        app:layout_constraintTop_toTopOf="@+id/textView2">
+        android:layout_margin="30dp"
+        android:background="@drawable/background_edittext"
+        android:hint="@string/enter_title"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
+        android:padding="15dp"
+        android:paddingEnd="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        tools:ignore="LabelFor,RtlSymmetry" />
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_edittext"
+        android:contentDescription="@string/enter_title"
+        android:padding="15dp"
+        android:src="@drawable/ic_baseline_search_24"
+        android:tint="@color/primaryTextColor"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextTitle"
+        app:layout_constraintEnd_toEndOf="@+id/editTextTitle"
+        app:layout_constraintTop_toTopOf="@+id/editTextTitle" />
 
-            <EditText
-                android:id="@+id/editTextTitle"
-                android:hint="@string/enter_title"
-                android:inputType="textPersonName"
-                android:layout_margin="30dp"
-                android:paddingEnd="40dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/background_edittext"
-                android:padding="15dp"
-                tools:layout_editor_absoluteX="30dp"
-                android:importantForAutofill="no"
-                tools:ignore="LabelFor,RtlSymmetry" />
-
-        </LinearLayout>
-
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/background_edittext"
-            android:layout_margin="30dp"
-            style="@style/SpinnerTheme"
-            android:padding="15dp"/>
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/background_edittext"
-            android:layout_margin="30dp"
-            style="@style/SpinnerTheme"
-            android:padding="15dp"/>
-
-    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewChooseSeries"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="200dp"
+        android:layout_marginBottom="120dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/cardview_add_series" />
 
     <Button
         android:id="@+id/buttonAddSeries"
