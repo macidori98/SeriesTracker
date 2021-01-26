@@ -12,4 +12,5 @@
     <string name="add_series">Add series</string>
     <string name="enter_title">Enter title…</string>
     <string name="cover_photo">cover photo</string>
+    <string name="not_seen">not seen</string>
 </resources>
