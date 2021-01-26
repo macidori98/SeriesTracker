@@ -13,4 +13,6 @@
     <string name="enter_title">Enter title…</string>
     <string name="cover_photo">cover photo</string>
     <string name="not_seen">not seen</string>
+    <string name="splash_screen">splash screen</string>
+    <string name="series_tracker">Series Tracker</string>
 </resources>
