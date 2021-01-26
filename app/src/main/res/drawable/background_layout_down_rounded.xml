@@ -6,6 +6,10 @@
         android:bottomRightRadius="25dp"
         android:topLeftRadius="0dp"
         android:topRightRadius="0dp" />
-    <gradient android:angle="90" android:endColor="@android:color/transparent" android:startColor="#000000" android:type="linear" />
+    <gradient
+        android:angle="90"
+        android:endColor="@android:color/transparent"
+        android:startColor="#000000"
+        android:type="linear" />
 
 </shape>

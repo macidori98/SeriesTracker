@@ -52,6 +52,7 @@
         tools:ignore="LabelFor,RtlSymmetry" />
 
     <ImageButton
+        android:id="@+id/imageButtonSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/background_edittext"
