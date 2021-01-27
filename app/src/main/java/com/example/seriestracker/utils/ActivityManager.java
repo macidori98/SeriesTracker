@@ -1,4 +1,4 @@
-package com.example.seriestracker.management;
+package com.example.seriestracker.utils;
 
 import android.app.Activity;
 import android.content.Intent;

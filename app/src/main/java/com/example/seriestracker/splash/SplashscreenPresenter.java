@@ -3,7 +3,7 @@ package com.example.seriestracker.splash;
 import android.app.Activity;
 import android.os.CountDownTimer;
 
-import com.example.seriestracker.management.ActivityManager;
+import com.example.seriestracker.utils.ActivityManager;
 
 public class SplashscreenPresenter implements ISpalshscreenPresenter{
 
