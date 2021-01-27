@@ -1,15 +1,17 @@
-package com.example.seriestracker;
+package com.example.seriestracker.login;
 
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class SplashscreenActivity extends AppCompatActivity {
+import com.example.seriestracker.R;
+
+public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splashscreen);
+        setContentView(R.layout.activity_login);
     }
 }
