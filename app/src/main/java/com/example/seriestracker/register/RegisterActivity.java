@@ -6,15 +6,17 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.seriestracker.R;
+import com.example.seriestracker.common.BaseActivity;
+import com.example.seriestracker.utils.ActivityManager;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends BaseActivity {
 
     private EditText etName;
     private Button btnRegister;
     private ImageButton ibClose;
+    private IRegisterPresenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,10 +27,23 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister = findViewById(R.id.buttonRegister);
         ibClose = findViewById(R.id.imageButtonClose);
 
+        presenter = new RegisterPresenter(this);
+
         setUpOnClickListeners();
     }
 
+    @Override
+    public void nextPage() {
+        ActivityManager.startHomeActivity(this);
+    }
+
+
     private void setUpOnClickListeners() {
         ibClose.setOnClickListener(v -> RegisterActivity.this.finish());
+
+        btnRegister.setOnClickListener(v -> {
+            String name = etName.getText().toString();
+            presenter.registerUser(name);
+        });
     }
 }

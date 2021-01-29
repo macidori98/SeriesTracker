@@ -9,10 +9,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.seriestracker.R;
-import com.example.seriestracker.common.INavigation;
+import com.example.seriestracker.common.BaseActivity;
 import com.example.seriestracker.utils.ActivityManager;
 
-public class SplashscreenActivity extends AppCompatActivity implements INavigation {
+public class SplashscreenActivity extends BaseActivity {
 
     private TextView tvName;
     private ISpalshscreenPresenter presenter;
@@ -35,11 +35,12 @@ public class SplashscreenActivity extends AppCompatActivity implements INavigati
     }
 
     private void startCountDown() {
-        presenter.setUpCountDown(this);
+        presenter.setUpCountDown();
     }
 
     @Override
     public void nextPage() {
         ActivityManager.startLoginActivity(this);
     }
+
 }

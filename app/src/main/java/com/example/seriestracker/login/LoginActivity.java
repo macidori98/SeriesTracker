@@ -1,17 +1,16 @@
 package com.example.seriestracker.login;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.seriestracker.R;
+import com.example.seriestracker.common.BaseActivity;
 import com.example.seriestracker.utils.ActivityManager;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     private EditText etName;
     private Button btnLogin, btnRegister;
@@ -30,5 +29,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private void setOnClickListeners() {
         btnRegister.setOnClickListener(v -> ActivityManager.startRegisterActivity(LoginActivity.this));
+    }
+
+    @Override
+    public void nextPage() {
+
     }
 }

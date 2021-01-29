@@ -2,7 +2,6 @@
     <string name="app_name">Series Tracker</string>
     <string name="login">Login</string>
     <string name="enter_name">Enter name…</string>
-    <string name="register">Register</string>
     <string name="close">close</string>
     <string name="continue_watching">Continue watching</string>
     <string name="details">details</string>
@@ -15,4 +14,11 @@
     <string name="not_seen">not seen</string>
     <string name="splash_screen">splash screen</string>
     <string name="series_tracker">Series Tracker</string>
+
+    <!--register-->
+    <string name="register">Register</string>
+
+    <!--messages-->
+    <string name="success">Success</string>
+    <string name="fail">Fail</string>
 </resources>

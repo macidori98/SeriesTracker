@@ -3,6 +3,7 @@ package com.example.seriestracker.utils;
 import android.app.Activity;
 import android.content.Intent;
 
+import com.example.seriestracker.home.HomeActivity;
 import com.example.seriestracker.login.LoginActivity;
 import com.example.seriestracker.register.RegisterActivity;
 
@@ -18,4 +19,13 @@ public class ActivityManager {
         activity.startActivity(intent);
     }
 
+    public static void startHomeActivity(Activity activity) {
+        Intent intent = new Intent(activity, HomeActivity.class);
+        activity.startActivity(intent);
+    }
+
+    public static void startNextActivity(Activity prevActivity, Activity nextActivity) {
+        Intent intent = new Intent(prevActivity, nextActivity.getClass());
+        prevActivity.startActivity(intent);
+    }
 }

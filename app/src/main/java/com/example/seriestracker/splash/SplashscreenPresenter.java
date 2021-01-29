@@ -3,21 +3,24 @@ package com.example.seriestracker.splash;
 import android.app.Activity;
 import android.os.CountDownTimer;
 
-import com.example.seriestracker.common.INavigation;
-import com.example.seriestracker.utils.ActivityManager;
-import com.example.seriestracker.utils.Constants;
+import com.example.seriestracker.common.BaseActivity;
+import com.example.seriestracker.home.HomeActivity;
+import com.example.seriestracker.utils.GlobalValues;
+import com.example.seriestracker.utils.Util;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class SplashscreenPresenter implements ISpalshscreenPresenter{
 
-    private INavigation iNavigation;
+    private final SplashscreenActivity activity;
 
-    public SplashscreenPresenter(INavigation iNavigation) {
-        this.iNavigation = iNavigation;
+    public SplashscreenPresenter(SplashscreenActivity activity) {
+        this.activity = activity;
     }
 
     @Override
-    public void setUpCountDown(Activity activity) {
-        new CountDownTimer(Constants.SPLASH_SCREEN_LENGTH, Constants.COUNTDOWN_INTERVAL) {
+    public void setUpCountDown() {
+        new CountDownTimer(GlobalValues.SPLASH_SCREEN_LENGTH, GlobalValues.COUNTDOWN_INTERVAL) {
             @Override
             public void onTick(long millisUntilFinished) {
 
@@ -25,8 +28,17 @@ public class SplashscreenPresenter implements ISpalshscreenPresenter{
 
             @Override
             public void onFinish() {
-                iNavigation.nextPage();
+                if (checkIfUserAlreadyLoggedIn()) {
+                    activity.nextPage();
+                } else {
+                    activity.nextPage(activity, new HomeActivity());
+                }
             }
         }.start();
+    }
+
+    private boolean checkIfUserAlreadyLoggedIn() {
+        GlobalValues.CURRENT_USER = Util.getSharedPref(activity, GlobalValues.USERS);
+        return GlobalValues.CURRENT_USER.isEmpty();
     }
 }
