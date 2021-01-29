@@ -17,6 +17,8 @@
 
     <!--register-->
     <string name="register">Register</string>
+    <string name="short_name">Your name length has to contain at least 6 characters</string>
+    <string name="already_exists">User already exists</string>
 
     <!--messages-->
     <string name="success">Success</string>

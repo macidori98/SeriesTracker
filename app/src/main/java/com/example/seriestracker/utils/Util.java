@@ -14,7 +14,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class Util {
 
     public static boolean isStringLengthOk(String string) {
-        return string.length() >= 6;
+        return string.length() >= GlobalValues.MIN_STRING_LENGTH;
     }
 
     public static void makeToast(Context context, int textId, int backgroundColor) {

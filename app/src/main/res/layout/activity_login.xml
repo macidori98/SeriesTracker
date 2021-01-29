@@ -34,18 +34,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <CheckBox
-        android:id="@+id/checkBoxRememberMe"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="25dp"
-        android:buttonTint="@color/secondaryColor"
-        android:checked="true"
-        android:text="@string/remember_me"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextName" />
-
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"

@@ -3,6 +3,7 @@ package com.example.seriestracker.utils;
 public class GlobalValues {
     public static final int SPLASH_SCREEN_LENGTH = 1500;
     public static final int COUNTDOWN_INTERVAL = 1000;
+    public static final int MIN_STRING_LENGTH = 6;
 
     public static String CURRENT_USER;
 

@@ -15,18 +15,22 @@ public class Users {
         this.name = name;
     }
 
+    @PropertyName("user_id")
     public String getId() {
         return id;
     }
 
+    @PropertyName("user_id")
     public void setId(String id) {
         this.id = id;
     }
 
+    @PropertyName("name")
     public String getName() {
         return name;
     }
 
+    @PropertyName("name")
     public void setName(String name) {
         this.name = name;
     }
