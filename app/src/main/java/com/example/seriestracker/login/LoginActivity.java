@@ -49,7 +49,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void nextPage() {
-
+        ActivityManager.startHomeActivity(this);
     }
 
     private void setOnClickListeners() {

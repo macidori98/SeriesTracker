@@ -23,9 +23,4 @@ public class ActivityManager {
         Intent intent = new Intent(activity, HomeActivity.class);
         activity.startActivity(intent);
     }
-
-    public static void startNextActivity(Activity prevActivity, Activity nextActivity) {
-        Intent intent = new Intent(prevActivity, nextActivity.getClass());
-        prevActivity.startActivity(intent);
-    }
 }

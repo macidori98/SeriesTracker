@@ -2,7 +2,6 @@ package com.example.seriestracker.splash;
 
 import android.os.CountDownTimer;
 
-import com.example.seriestracker.home.HomeActivity;
 import com.example.seriestracker.utils.GlobalValues;
 import com.example.seriestracker.utils.Util;
 
@@ -27,7 +26,7 @@ public class SplashscreenPresenter implements ISpalshscreenPresenter {
                 if (checkIfUserAlreadyLoggedIn()) {
                     activity.nextPage();
                 } else {
-                    activity.nextPage(activity, new HomeActivity());
+                    activity.nextPage();
                 }
             }
         }.start();

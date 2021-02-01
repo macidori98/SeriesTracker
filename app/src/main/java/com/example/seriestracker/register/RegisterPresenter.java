@@ -2,7 +2,6 @@ package com.example.seriestracker.register;
 
 import com.example.seriestracker.R;
 import com.example.seriestracker.helper.FirebaseHelper;
-import com.example.seriestracker.home.HomeActivity;
 import com.example.seriestracker.utils.Util;
 
 public class RegisterPresenter implements IRegisterPresenter {
@@ -28,7 +27,7 @@ public class RegisterPresenter implements IRegisterPresenter {
         Util.setSharedPref(activity, name);
 
         activity.onActionSuccess(activity, textId, backgroundColorId);
-        activity.nextPage(activity, new HomeActivity());
+        activity.nextPage();
     }
 
     @Override
