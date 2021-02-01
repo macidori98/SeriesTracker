@@ -4,6 +4,10 @@ public class GlobalValues {
     public static final int SPLASH_SCREEN_LENGTH = 1500;
     public static final int COUNTDOWN_INTERVAL = 1000;
     public static final int MIN_STRING_LENGTH = 6;
+    public static final int ZERO = 0;
+    public static final int TOAST_OFFSET = 40;
+    public static final int PADDING_VERTICAL = 15;
+    public static final int PADDING_HORIZONTAL = 35;
     //db values
     public static final String USERS = "users";
     public static final String TV_SHOWS = "tv_shows";
