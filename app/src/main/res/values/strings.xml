@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Series Tracker</string>
-    <string name="login">Login</string>
     <string name="enter_name">Enter name…</string>
     <string name="close">close</string>
     <string name="continue_watching">Continue watching</string>
@@ -19,6 +18,12 @@
     <string name="register">Register</string>
     <string name="short_name">Your name length has to contain at least 6 characters</string>
     <string name="already_exists">User already exists</string>
+    <string name="registration_success">Registration successfully</string>
+
+    <!--login-->
+    <string name="login">Login</string>
+    <string name="does_not_exist">User does not exist</string>
+    <string name="login_successfully">Login successfully</string>
 
     <!--messages-->
     <string name="success">Success</string>

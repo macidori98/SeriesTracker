@@ -3,6 +3,7 @@ package com.example.seriestracker.helper;
 import androidx.annotation.NonNull;
 
 import com.example.seriestracker.R;
+import com.example.seriestracker.common.IBasePresenter;
 import com.example.seriestracker.model.Users;
 import com.example.seriestracker.register.IRegisterPresenter;
 import com.example.seriestracker.utils.GlobalValues;
@@ -27,11 +28,12 @@ public class FirebaseHelper {
         return databaseInstance;
     }
 
-    public void checkIfUserAlreadyExists(IRegisterPresenter presenter, String name) {
+    public void checkIfUserAlreadyExists(IBasePresenter presenter, String name) {
         databaseReference = database.getReference(GlobalValues.USERS);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                 boolean exists = false;
 
                 for (DataSnapshot snap : snapshot.getChildren()) {
@@ -39,14 +41,26 @@ public class FirebaseHelper {
 
                     if (userName.equals(name)) {
                         exists = true;
-                        presenter.onFailure(R.string.already_exists, R.color.red);
                         break;
                     }
                 }
 
-                if (!exists) {
-                    insertUser(presenter, name);
+                if (presenter instanceof IRegisterPresenter) {
+                    //registration user must not exists
+                    if (!exists) {
+                        insertUser(presenter, name);
+                    } else {
+                        presenter.onFailure(R.string.already_exists, R.color.red);
+                    }
+                } else {
+                    //login user must exists
+                    if (exists) {
+                        presenter.onSuccess(R.string.login_successfully, R.color.green);
+                    } else {
+                        presenter.onFailure(R.string.does_not_exist, R.color.red);
+                    }
                 }
+
             }
 
             @Override
@@ -56,36 +70,7 @@ public class FirebaseHelper {
         });
     }
 
-    /*public void login(IRegisterPresenter presenter, String name) {
-        databaseReference = database.getReference(GlobalValues.USERS);
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                boolean exists = false;
-
-                for (DataSnapshot snap: snapshot.getChildren()) {
-                    String userName = Objects.requireNonNull(snap.child(GlobalValues.NAME).getValue()).toString();
-
-                    if (userName.equals(name)){
-                        exists = true;
-                        presenter.onSuccess();
-                        break;
-                    }
-                }
-
-                if (!exists) {
-                    presenter.onFailure(R.string.already_exists, R.color.red);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }*/
-
-    private void insertUser(IRegisterPresenter presenter, String name) {
+    private void insertUser(IBasePresenter presenter, String name) {
         databaseReference = database.getReference(GlobalValues.USERS);
 
         String id = databaseReference.push().getKey();
@@ -93,7 +78,7 @@ public class FirebaseHelper {
 
         databaseReference.child(Objects.requireNonNull(id)).setValue(user).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                presenter.onSuccess(R.string.success, R.color.green);
+                presenter.onSuccess(R.string.registration_success, R.color.green);
             } else {
                 presenter.onFailure(R.string.fail, R.color.red);
             }

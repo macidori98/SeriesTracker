@@ -14,6 +14,7 @@ public class LoginActivity extends BaseActivity {
 
     private EditText etName;
     private Button btnLogin, btnRegister;
+    private ILoginPresenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,11 +25,19 @@ public class LoginActivity extends BaseActivity {
         btnRegister = findViewById(R.id.buttonRegister);
         etName = findViewById(R.id.editTextName);
 
+        presenter = new LoginPresenter(this);
+
         setOnClickListeners();
     }
 
     private void setOnClickListeners() {
         btnRegister.setOnClickListener(v -> ActivityManager.startRegisterActivity(LoginActivity.this));
+
+        btnLogin.setOnClickListener(v -> {
+            String name = etName.getText().toString();
+
+            presenter.login(name);
+        });
     }
 
     @Override
