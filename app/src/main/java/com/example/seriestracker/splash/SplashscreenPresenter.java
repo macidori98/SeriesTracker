@@ -1,16 +1,12 @@
 package com.example.seriestracker.splash;
 
-import android.app.Activity;
 import android.os.CountDownTimer;
 
-import com.example.seriestracker.common.BaseActivity;
 import com.example.seriestracker.home.HomeActivity;
 import com.example.seriestracker.utils.GlobalValues;
 import com.example.seriestracker.utils.Util;
 
-import static android.content.Context.MODE_PRIVATE;
-
-public class SplashscreenPresenter implements ISpalshscreenPresenter{
+public class SplashscreenPresenter implements ISpalshscreenPresenter {
 
     private final SplashscreenActivity activity;
 

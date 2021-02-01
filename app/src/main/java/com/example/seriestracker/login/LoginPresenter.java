@@ -1,6 +1,6 @@
 package com.example.seriestracker.login;
 
-public class LoginPresenter implements ILoginPresenter{
+public class LoginPresenter implements ILoginPresenter {
     private LoginActivity activity;
 
     public LoginPresenter(LoginActivity activity) {

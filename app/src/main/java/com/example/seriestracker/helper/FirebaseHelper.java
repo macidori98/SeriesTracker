@@ -1,15 +1,11 @@
 package com.example.seriestracker.helper;
 
-import android.graphics.Color;
-
 import androidx.annotation.NonNull;
 
 import com.example.seriestracker.R;
 import com.example.seriestracker.model.Users;
 import com.example.seriestracker.register.IRegisterPresenter;
 import com.example.seriestracker.utils.GlobalValues;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,10 +34,10 @@ public class FirebaseHelper {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 boolean exists = false;
 
-                for (DataSnapshot snap: snapshot.getChildren()) {
+                for (DataSnapshot snap : snapshot.getChildren()) {
                     String userName = Objects.requireNonNull(snap.child(GlobalValues.NAME).getValue()).toString();
 
-                    if (userName.equals(name)){
+                    if (userName.equals(name)) {
                         exists = true;
                         presenter.onFailure(R.string.already_exists, R.color.red);
                         break;
@@ -95,14 +91,11 @@ public class FirebaseHelper {
         String id = databaseReference.push().getKey();
         Users user = new Users(id, name);
 
-        databaseReference.child(id).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    presenter.onSuccess(R.string.success, R.color.green);
-                } else {
-                    presenter.onFailure(R.string.fail, R.color.red);
-                }
+        databaseReference.child(Objects.requireNonNull(id)).setValue(user).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                presenter.onSuccess(R.string.success, R.color.green);
+            } else {
+                presenter.onFailure(R.string.fail, R.color.red);
             }
         });
     }

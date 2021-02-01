@@ -6,7 +6,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.seriestracker.R;
 import com.example.seriestracker.common.BaseActivity;

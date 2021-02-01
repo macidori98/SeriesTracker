@@ -15,11 +15,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         ActivityManager.startNextActivity(prevActivity, nextActivity);
     }
 
-    public void onActionFailure(Context context, int message, int color){
+    public void onActionFailure(Context context, int message, int color) {
         Util.makeToast(context, message, color);
     }
 
-    public void onActionSuccess(Context context, int message, int color){
+    public void onActionSuccess(Context context, int message, int color) {
         Util.makeToast(context, message, color);
     }
 }

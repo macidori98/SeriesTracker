@@ -16,10 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"/>
-        <activity android:name=".login.LoginActivity"/>
-        <activity android:name=".register.RegisterActivity"/>
-        <activity android:name=".home.HomeActivity"/>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".login.LoginActivity" />
+        <activity android:name=".register.RegisterActivity" />
+        <activity android:name=".home.HomeActivity" />
     </application>
 
 </manifest>
