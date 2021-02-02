@@ -9,6 +9,9 @@ public class GlobalValues {
     public static final int PADDING_VERTICAL = 15;
     public static final int PADDING_HORIZONTAL = 35;
     //db values
+    public static final String BASE_URL = "https://api.themoviedb.org/";
+    public static final String BASE_URL_IMAGE = "https://image.tmdb.org/t/p/w185/";
+    public static final String API_KEY = "55ad3422681300f02641616898bdbee0";
     public static final String USERS = "users";
     public static final String TV_SHOWS = "tv_shows";
     public static final String USER_DATA = "user_data";

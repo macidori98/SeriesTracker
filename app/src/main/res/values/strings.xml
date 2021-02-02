@@ -25,7 +25,11 @@
     <string name="does_not_exist">User does not exist</string>
     <string name="login_successfully">Login successfully</string>
 
+    <!--add series-->
+    <string name="empty_string">You have to enter the title first</string>
+
     <!--messages-->
     <string name="success">Success</string>
     <string name="fail">Fail</string>
+    <string name="something_went_wrong">Something went wrong</string>
 </resources>
