@@ -76,17 +76,31 @@ public class FirebaseHelper {
         });
     }
 
-    public void addTvShow(TvShow tvShow, IAddSeriesPresenter presenter) {
+    public void checkIfUserAlreadyAddedTvShow(TvShow tvShow, IAddSeriesPresenter presenter) {
         databaseReference = database.getReference(GlobalValues.TV_SHOWS);
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean exists  = false;
+                String title = tvShow.getName();
 
-        String id = databaseReference.push().getKey();
+                for (DataSnapshot snap : snapshot.getChildren()) {
+                    String showTitle = Objects.requireNonNull(snap.child(GlobalValues.NAME).getValue()).toString();
+                    if (showTitle.equals(title)) {
+                        exists = true;
+                        presenter.onFailure(R.string.series_already_added, R.color.primaryColor);
+                        break;
+                    }
+                }
 
-        databaseReference.child(id).setValue(tvShow).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                //presenter.addShowSeasonsAndEpisodesToFirebase();
-                presenter.onSuccess(R.string.success, R.color.green);
-            } else {
-                presenter.onFailure(R.string.show_not_added, R.color.red);
+                if (!exists) {
+                    addTvShow(tvShow, presenter);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
@@ -105,5 +119,21 @@ public class FirebaseHelper {
             }
         });
     }
+
+    private void addTvShow(TvShow tvShow, IAddSeriesPresenter presenter) {
+        databaseReference = database.getReference(GlobalValues.TV_SHOWS);
+
+        String id = databaseReference.push().getKey();
+
+        databaseReference.child(id).setValue(tvShow).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                //presenter.addShowSeasonsAndEpisodesToFirebase();
+                presenter.onSuccess(R.string.success, R.color.green);
+            } else {
+                presenter.onFailure(R.string.show_not_added, R.color.red);
+            }
+        });
+    }
+
 
 }

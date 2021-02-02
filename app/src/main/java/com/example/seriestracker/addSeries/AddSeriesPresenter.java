@@ -65,7 +65,7 @@ public class AddSeriesPresenter implements IAddSeriesPresenter {
 
     @Override
     public void addToFirebase(SearchSeries series) {
-        FirebaseHelper.getInstance().addTvShow(new TvShow(GlobalValues.CURRENT_USER_ID, series.getName(),
+        FirebaseHelper.getInstance().checkIfUserAlreadyAddedTvShow(new TvShow(GlobalValues.CURRENT_USER_ID, series.getName(),
                 series.getId(), series.getImage()), this);
     }
 

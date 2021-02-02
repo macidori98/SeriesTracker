@@ -28,6 +28,9 @@ public class LoginPresenter implements ILoginPresenter {
         Util.setSharedPref(activity, GlobalValues.NAME, name);
         Util.setSharedPref(activity, GlobalValues.USER_ID, id);
 
+        GlobalValues.CURRENT_USER_ID = id;
+        GlobalValues.CURRENT_USER = name;
+
         activity.onActionSuccess(activity, textId, backgroundColorId);
         activity.nextPage();
     }

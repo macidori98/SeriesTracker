@@ -29,6 +29,7 @@
     <string name="empty_string">You have to enter the title first</string>
     <string name="add_new_series">Would you like to add</string>
     <string name="show_not_added">Show not added</string>
+    <string name="series_already_added">TV show already added</string>
 
     <!--messages-->
     <string name="success">Success</string>
