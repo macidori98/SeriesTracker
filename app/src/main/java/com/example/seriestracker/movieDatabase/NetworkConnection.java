@@ -8,7 +8,7 @@ import static com.example.seriestracker.utils.GlobalValues.BASE_URL;
 public class NetworkConnection {
     private static Retrofit retrofit;
 
-    public static MovieApi getRetrofit(){
+    public static MovieApi getRetrofit() {
         return getRetrofitClient().create(MovieApi.class);
     }
 

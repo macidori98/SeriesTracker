@@ -3,7 +3,10 @@ package com.example.seriestracker.helper;
 import androidx.annotation.NonNull;
 
 import com.example.seriestracker.R;
+import com.example.seriestracker.addSeries.IAddSeriesPresenter;
 import com.example.seriestracker.common.IBasePresenter;
+import com.example.seriestracker.login.ILoginPresenter;
+import com.example.seriestracker.model.TvShow;
 import com.example.seriestracker.model.Users;
 import com.example.seriestracker.register.IRegisterPresenter;
 import com.example.seriestracker.utils.GlobalValues;
@@ -35,9 +38,11 @@ public class FirebaseHelper {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 boolean exists = false;
+                String userId = "";
 
                 for (DataSnapshot snap : snapshot.getChildren()) {
                     String userName = Objects.requireNonNull(snap.child(GlobalValues.NAME).getValue()).toString();
+                    userId = Objects.requireNonNull(snap.child(GlobalValues.USER_ID).getValue()).toString();
 
                     if (userName.equals(name)) {
                         exists = true;
@@ -48,14 +53,15 @@ public class FirebaseHelper {
                 if (presenter instanceof IRegisterPresenter) {
                     //registration user must not exists
                     if (!exists) {
-                        insertUser(presenter, name);
+                        insertUser((IRegisterPresenter) presenter, name);
                     } else {
                         presenter.onFailure(R.string.already_exists, R.color.red);
                     }
                 } else {
                     //login user must exists
                     if (exists) {
-                        presenter.onSuccess(R.string.login_successfully, R.color.green);
+                        ILoginPresenter loginPresenter = (ILoginPresenter) presenter;
+                        loginPresenter.onSuccess(R.string.login_successfully, R.color.green, userId);
                     } else {
                         presenter.onFailure(R.string.does_not_exist, R.color.red);
                     }
@@ -70,7 +76,22 @@ public class FirebaseHelper {
         });
     }
 
-    private void insertUser(IBasePresenter presenter, String name) {
+    public void addTvShow(TvShow tvShow, IAddSeriesPresenter presenter) {
+        databaseReference = database.getReference(GlobalValues.TV_SHOWS);
+
+        String id = databaseReference.push().getKey();
+
+        databaseReference.child(id).setValue(tvShow).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                //presenter.addShowSeasonsAndEpisodesToFirebase();
+                presenter.onSuccess(R.string.success, R.color.green);
+            } else {
+                presenter.onFailure(R.string.show_not_added, R.color.red);
+            }
+        });
+    }
+
+    private void insertUser(IRegisterPresenter presenter, String name) {
         databaseReference = database.getReference(GlobalValues.USERS);
 
         String id = databaseReference.push().getKey();
@@ -78,7 +99,7 @@ public class FirebaseHelper {
 
         databaseReference.child(Objects.requireNonNull(id)).setValue(user).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                presenter.onSuccess(R.string.registration_success, R.color.green);
+                presenter.onSuccess(R.string.registration_success, R.color.green, id);
             } else {
                 presenter.onFailure(R.string.fail, R.color.red);
             }

@@ -34,7 +34,8 @@ public class SplashscreenPresenter implements ISpalshscreenPresenter {
     }
 
     private boolean checkIfUserAlreadyLoggedIn() {
-        GlobalValues.CURRENT_USER = Util.getSharedPref(activity, GlobalValues.USERS);
-        return GlobalValues.CURRENT_USER.isEmpty();
+        GlobalValues.CURRENT_USER = Util.getSharedPref(activity, GlobalValues.NAME);
+        GlobalValues.CURRENT_USER_ID = Util.getSharedPref(activity, GlobalValues.USER_ID);
+        return GlobalValues.CURRENT_USER.isEmpty() && GlobalValues.CURRENT_USER_ID.isEmpty();
     }
 }

@@ -1,11 +1,13 @@
 package com.example.seriestracker.utils;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,19 +46,28 @@ public class Util {
         }
 
         view.setPadding(PADDING_HORIZONTAL, PADDING_VERTICAL, PADDING_HORIZONTAL, PADDING_VERTICAL);
-        TextView text = (TextView) view.findViewById(android.R.id.message);
+        TextView text = view.findViewById(android.R.id.message);
         text.setTextColor(Color.WHITE);
         toast.show();
     }
 
-    public static void setSharedPref(Context context, String str) {
+    public static void setSharedPref(Context context, String key, String str) {
         SharedPreferences.Editor sharedPreferences = Objects.requireNonNull(context).getSharedPreferences(GlobalValues.USERS, MODE_PRIVATE).edit();
-        sharedPreferences.putString(GlobalValues.USERS, str);
+        sharedPreferences.putString(key, str);
         sharedPreferences.apply();
     }
 
-    public static String getSharedPref(Context context, String str) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(str, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(str, "");
+    public static String getSharedPref(Context context, String key) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(GlobalValues.USERS, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(key, "");
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        View view = activity.getCurrentFocus();
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

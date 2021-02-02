@@ -27,9 +27,17 @@
 
     <!--add series-->
     <string name="empty_string">You have to enter the title first</string>
+    <string name="add_new_series">Would you like to add</string>
+    <string name="show_not_added">Show not added</string>
 
     <!--messages-->
     <string name="success">Success</string>
     <string name="fail">Fail</string>
     <string name="something_went_wrong">Something went wrong</string>
+    <string name="no_entries_found">No entries found</string>
+
+    <!--API-->
+    <string name="language">en-US</string>
+    <string name="page_start">1</string>
+    <string name="falsee">false</string>
 </resources>

@@ -10,7 +10,7 @@ public class GlobalValues {
     public static final int PADDING_HORIZONTAL = 35;
     //db values
     public static final String BASE_URL = "https://api.themoviedb.org/";
-    public static final String BASE_URL_IMAGE = "https://image.tmdb.org/t/p/w185/";
+    public static final String BASE_URL_IMAGE = "https://image.tmdb.org/t/p/w400/";
     public static final String API_KEY = "55ad3422681300f02641616898bdbee0";
     public static final String USERS = "users";
     public static final String TV_SHOWS = "tv_shows";
@@ -24,5 +24,6 @@ public class GlobalValues {
     public static final String SEEN = "seen";
     public static final String LIKED = "liked";
     public static String CURRENT_USER;
+    public static String CURRENT_USER_ID;
 
 }

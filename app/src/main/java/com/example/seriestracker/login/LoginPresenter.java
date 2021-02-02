@@ -2,6 +2,7 @@ package com.example.seriestracker.login;
 
 import com.example.seriestracker.R;
 import com.example.seriestracker.helper.FirebaseHelper;
+import com.example.seriestracker.utils.GlobalValues;
 import com.example.seriestracker.utils.Util;
 
 public class LoginPresenter implements ILoginPresenter {
@@ -23,11 +24,17 @@ public class LoginPresenter implements ILoginPresenter {
     }
 
     @Override
-    public void onSuccess(int textId, int backgroundColorId) {
-        Util.setSharedPref(activity, name);
+    public void onSuccess(int textId, int backgroundColorId, String id) {
+        Util.setSharedPref(activity, GlobalValues.NAME, name);
+        Util.setSharedPref(activity, GlobalValues.USER_ID, id);
 
         activity.onActionSuccess(activity, textId, backgroundColorId);
         activity.nextPage();
+    }
+
+    @Override
+    public void onSuccess(int textId, int backgroundColorId) {
+
     }
 
     @Override

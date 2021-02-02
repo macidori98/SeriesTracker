@@ -4,6 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="300dp"
     android:layout_margin="10dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="15dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,6 +19,7 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/cover_photo"
             android:scaleType="centerCrop"
+            android:src="@drawable/placeholder"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
