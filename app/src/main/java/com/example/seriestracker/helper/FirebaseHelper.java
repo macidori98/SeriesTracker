@@ -81,7 +81,7 @@ public class FirebaseHelper {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                boolean exists  = false;
+                boolean exists = false;
                 String title = tvShow.getName();
 
                 for (DataSnapshot snap : snapshot.getChildren()) {

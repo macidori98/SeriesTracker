@@ -5,6 +5,7 @@ import com.example.seriestracker.helper.FirebaseHelper;
 import com.example.seriestracker.model.SearchSeries;
 import com.example.seriestracker.model.SearchSeriesResponse;
 import com.example.seriestracker.model.TvShow;
+import com.example.seriestracker.model.TvShowDetails;
 import com.example.seriestracker.movieDatabase.MovieApi;
 import com.example.seriestracker.movieDatabase.NetworkConnection;
 import com.example.seriestracker.utils.GlobalValues;
@@ -65,8 +66,7 @@ public class AddSeriesPresenter implements IAddSeriesPresenter {
 
     @Override
     public void addToFirebase(SearchSeries series) {
-        FirebaseHelper.getInstance().checkIfUserAlreadyAddedTvShow(new TvShow(GlobalValues.CURRENT_USER_ID, series.getName(),
-                series.getId(), series.getImage()), this);
+        getShowSeasonNumber(series);
     }
 
     @Override
@@ -83,5 +83,32 @@ public class AddSeriesPresenter implements IAddSeriesPresenter {
     @Override
     public void onFailure(int textId, int backgroundColorId) {
         activity.onActionFailure(activity, textId, backgroundColorId);
+    }
+
+    private void getShowSeasonNumber(SearchSeries series) {
+        final MovieApi api = NetworkConnection.getRetrofit();
+        String id = String.valueOf(series.getId());
+        Call<TvShowDetails> call = api.getSeasonNumber(id, GlobalValues.API_KEY, activity.getResources().getString(R.string.language));
+
+        call.enqueue(new Callback<TvShowDetails>() {
+            @Override
+            @EverythingIsNonNull
+            public void onResponse(Call<TvShowDetails> call, Response<TvShowDetails> response) {
+                if (response.code() == 200) {
+                    TvShowDetails detail = (TvShowDetails) response.body();
+                    int number = detail.getNumberOfSeasons();
+                    FirebaseHelper.getInstance().checkIfUserAlreadyAddedTvShow(new TvShow(GlobalValues.CURRENT_USER_ID, series.getName(),
+                            series.getId(), series.getImage(), number), AddSeriesPresenter.this);
+                } else {
+                    activity.onActionFailure(activity, R.string.fail, R.color.red);
+                }
+            }
+
+            @Override
+            @EverythingIsNonNull
+            public void onFailure(Call<TvShowDetails> call, Throwable t) {
+                activity.onActionFailure(activity, R.string.fail, R.color.red);
+            }
+        });
     }
 }

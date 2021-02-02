@@ -15,11 +15,15 @@ public class TvShow {
     @PropertyName("image")
     private String image;
 
-    public TvShow(String userId, String name, int dbId, String image) {
+    @PropertyName("season_number")
+    private int seasonNumber;
+
+    public TvShow(String userId, String name, int dbId, String image, int seasonNumber) {
         this.userId = userId;
         this.name = name;
         this.dbId = dbId;
         this.image = image;
+        this.seasonNumber = seasonNumber;
     }
 
     @PropertyName("user_id")
@@ -60,5 +64,15 @@ public class TvShow {
     @PropertyName("image")
     public void setImage(String image) {
         this.image = image;
+    }
+
+    @PropertyName("season_number")
+    public int getSeasonNumber() {
+        return seasonNumber;
+    }
+
+    @PropertyName("season_number")
+    public void setSeasonNumber(int seasonNumber) {
+        this.seasonNumber = seasonNumber;
     }
 }
