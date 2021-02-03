@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -23,7 +22,6 @@ import com.example.seriestracker.utils.Util;
 public class AddSeriesActivity extends BaseActivity implements IAddSeriesView {
 
     private ImageButton ibClose, ibSearch;
-    private Button btnAdd;
     private EditText etTitle;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
@@ -37,7 +35,6 @@ public class AddSeriesActivity extends BaseActivity implements IAddSeriesView {
         ibClose = findViewById(R.id.imageButtonClose);
         ibSearch = findViewById(R.id.imageButtonSearch);
         etTitle = findViewById(R.id.editTextTitle);
-        btnAdd = findViewById(R.id.buttonAddSeries);
         recyclerView = findViewById(R.id.recyclerViewChooseSeries);
         progressBar = findViewById(R.id.progressBar);
 
@@ -55,6 +52,10 @@ public class AddSeriesActivity extends BaseActivity implements IAddSeriesView {
     public void onActionFailure(Context context, int message, int color) {
         super.onActionFailure(context, message, color);
         progressBar.setVisibility(View.GONE);
+        recyclerView.setEnabled(true);
+        etTitle.setEnabled(true);
+        ibSearch.setEnabled(true);
+        ibClose.setEnabled(true);
     }
 
     @Override
