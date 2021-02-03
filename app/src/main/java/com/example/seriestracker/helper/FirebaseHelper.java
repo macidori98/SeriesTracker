@@ -187,7 +187,7 @@ public class FirebaseHelper {
         });
     }
 
-    private void getUserSeriesDetails(List<TvShow> tvShows, IHomeActivityPresenter presenter){
+    private void getUserSeriesDetails(List<TvShow> tvShows, IHomeActivityPresenter presenter) {
         final List<UserData> userData = new ArrayList<>();
         databaseReference = database.getReference(GlobalValues.USER_DATA);
 
@@ -209,7 +209,7 @@ public class FirebaseHelper {
                         int episodeNumber = Integer.parseInt(data.child(GlobalValues.EPISODE_NUMBER).getValue().toString());
                         boolean liked = Boolean.parseBoolean(data.child(GlobalValues.LIKED).getValue().toString());
                         boolean seen = Boolean.parseBoolean(data.child(GlobalValues.SEEN).getValue().toString());
-                        userData.add(new UserData(userId, name, dbId, image, seasonNumber, episodeNumber,seen,liked));
+                        userData.add(new UserData(userId, name, dbId, image, seasonNumber, episodeNumber, seen, liked));
                     }
                 }
 

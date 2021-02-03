@@ -52,7 +52,7 @@ public class SeriesCardAdapter extends RecyclerView.Adapter<SeriesCardAdapter.Vi
             holder.ivCover.setImageResource(R.drawable.placeholder);
         }
 
-        for (UserData ud: data) {
+        for (UserData ud : data) {
             if (!ud.getSeen()) {
                 String status = context.getResources().getString(R.string.season_init)
                         .concat(String.valueOf(ud.getSeasonNumber()))
@@ -78,10 +78,6 @@ public class SeriesCardAdapter extends RecyclerView.Adapter<SeriesCardAdapter.Vi
         this.listener = listener;
     }
 
-    public interface OnItemClickListener {
-        void onItemClick(int position);
-    }
-
     private List<UserData> getFilteredList(int id) {
         List<UserData> data = new ArrayList<>();
 
@@ -92,6 +88,10 @@ public class SeriesCardAdapter extends RecyclerView.Adapter<SeriesCardAdapter.Vi
         }
 
         return data;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
