@@ -7,6 +7,7 @@ import com.example.seriestracker.addSeries.IAddSeriesPresenter;
 import com.example.seriestracker.common.IBasePresenter;
 import com.example.seriestracker.login.ILoginPresenter;
 import com.example.seriestracker.model.TvShow;
+import com.example.seriestracker.model.UserData;
 import com.example.seriestracker.model.Users;
 import com.example.seriestracker.register.IRegisterPresenter;
 import com.example.seriestracker.utils.GlobalValues;
@@ -16,6 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.List;
 import java.util.Objects;
 
 public class FirebaseHelper {
@@ -105,6 +107,22 @@ public class FirebaseHelper {
         });
     }
 
+    public void addUserData(IAddSeriesPresenter presenter, List<UserData> data) {
+        databaseReference = database.getReference(GlobalValues.USER_DATA);
+
+        for (UserData userData : data) {
+            String id = databaseReference.push().getKey();
+
+            if (userData.getName().equals(data.get(data.size() - 1).getName())) {
+                databaseReference.child(id).setValue(userData).addOnFailureListener(e -> presenter.onFailure(R.string.fail, R.color.red))
+                        .addOnCompleteListener(task -> presenter.onSuccess(R.string.data_successfully_added, R.color.green));
+            } else {
+                databaseReference.child(id).setValue(userData).addOnFailureListener(e -> presenter.onFailure(R.string.fail, R.color.red));
+            }
+
+        }
+    }
+
     private void insertUser(IRegisterPresenter presenter, String name) {
         databaseReference = database.getReference(GlobalValues.USERS);
 
@@ -127,8 +145,8 @@ public class FirebaseHelper {
 
         databaseReference.child(id).setValue(tvShow).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                //presenter.addShowSeasonsAndEpisodesToFirebase();
-                presenter.onSuccess(R.string.success, R.color.green);
+                presenter.addShowSeasonsAndEpisodesToFirebase(tvShow);
+                //presenter.onSuccess(R.string.success, R.color.green);
             } else {
                 presenter.onFailure(R.string.show_not_added, R.color.red);
             }

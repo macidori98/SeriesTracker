@@ -6,11 +6,15 @@ import com.example.seriestracker.model.SearchSeries;
 import com.example.seriestracker.model.SearchSeriesResponse;
 import com.example.seriestracker.model.TvShow;
 import com.example.seriestracker.model.TvShowDetails;
+import com.example.seriestracker.model.TvShowEpisode;
+import com.example.seriestracker.model.TvShowSeasonDetailsRoot;
+import com.example.seriestracker.model.UserData;
 import com.example.seriestracker.movieDatabase.MovieApi;
 import com.example.seriestracker.movieDatabase.NetworkConnection;
 import com.example.seriestracker.utils.GlobalValues;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -19,6 +23,7 @@ import retrofit2.internal.EverythingIsNonNull;
 
 public class AddSeriesPresenter implements IAddSeriesPresenter {
     private final AddSeriesActivity activity;
+    private List<UserData> userDataList = new ArrayList<>();
 
     public AddSeriesPresenter(AddSeriesActivity activity) {
         this.activity = activity;
@@ -70,8 +75,45 @@ public class AddSeriesPresenter implements IAddSeriesPresenter {
     }
 
     @Override
-    public void addShowSeasonsAndEpisodesToFirebase() {
-        //todo
+    public void addShowSeasonsAndEpisodesToFirebase(TvShow tvShow) {
+        if (tvShow.getSeasonNumber() == 0) {
+            activity.onActionSuccess(activity, R.string.success, R.color.green);
+            activity.tvShowAdded();
+            return;
+        }
+
+        for (int season = 1; season <= tvShow.getSeasonNumber(); ++season) {
+            String seasonNumber = String.valueOf(season);
+
+            final MovieApi api = NetworkConnection.getRetrofit();
+            Call<TvShowSeasonDetailsRoot> call = api.getSeasonDetails(tvShow.getDbId(), seasonNumber, GlobalValues.API_KEY,
+                    activity.getResources().getString(R.string.language));
+            int finalSeason = season;
+            call.enqueue(new Callback<TvShowSeasonDetailsRoot>() {
+                @Override
+                @EverythingIsNonNull
+                public void onResponse(Call<TvShowSeasonDetailsRoot> call, Response<TvShowSeasonDetailsRoot> response) {
+                    if (response.code() == 200) {
+                        TvShowSeasonDetailsRoot seasonDetails = response.body();
+                        List<TvShowEpisode> showEpisode = seasonDetails.getEpisodes();
+
+                        prepareDataForFirebase(showEpisode, tvShow.getDbId());
+
+                        if (finalSeason == tvShow.getSeasonNumber()) {
+                            FirebaseHelper.getInstance().addUserData(AddSeriesPresenter.this, userDataList);
+                        }
+                    } else {
+                        activity.onActionFailure(activity, R.string.fail, R.color.red);
+                    }
+                }
+
+                @Override
+                @EverythingIsNonNull
+                public void onFailure(Call<TvShowSeasonDetailsRoot> call, Throwable t) {
+                    activity.onActionFailure(activity, R.string.fail, R.color.red);
+                }
+            });
+        }
     }
 
     @Override
@@ -95,7 +137,7 @@ public class AddSeriesPresenter implements IAddSeriesPresenter {
             @EverythingIsNonNull
             public void onResponse(Call<TvShowDetails> call, Response<TvShowDetails> response) {
                 if (response.code() == 200) {
-                    TvShowDetails detail = (TvShowDetails) response.body();
+                    TvShowDetails detail = response.body();
                     int number = detail.getNumberOfSeasons();
                     FirebaseHelper.getInstance().checkIfUserAlreadyAddedTvShow(new TvShow(GlobalValues.CURRENT_USER_ID, series.getName(),
                             series.getId(), series.getImage(), number), AddSeriesPresenter.this);
@@ -110,5 +152,14 @@ public class AddSeriesPresenter implements IAddSeriesPresenter {
                 activity.onActionFailure(activity, R.string.fail, R.color.red);
             }
         });
+    }
+
+    private void prepareDataForFirebase(List<TvShowEpisode> showEpisode, int dbId) {
+        for (TvShowEpisode episode : showEpisode) {
+            UserData data = new UserData(GlobalValues.CURRENT_USER_ID, episode.getName(),
+                    dbId, episode.getImage(), episode.getSeasonNumber(), episode.getEpisodeNumber(),
+                    false, false);
+            userDataList.add(data);
+        }
     }
 }

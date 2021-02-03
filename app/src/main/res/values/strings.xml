@@ -41,4 +41,5 @@
     <string name="language">en-US</string>
     <string name="page_start">1</string>
     <string name="falsee">false</string>
+    <string name="data_successfully_added">Data successfully added</string>
 </resources>
