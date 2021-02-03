@@ -156,8 +156,14 @@ public class AddSeriesPresenter implements IAddSeriesPresenter {
 
     private void prepareDataForFirebase(List<TvShowEpisode> showEpisode, int dbId) {
         for (TvShowEpisode episode : showEpisode) {
+            String image = "";
+
+            if (episode.getImage() != null) {
+                image = episode.getImage();
+            }
+
             UserData data = new UserData(GlobalValues.CURRENT_USER_ID, episode.getName(),
-                    dbId, episode.getImage(), episode.getSeasonNumber(), episode.getEpisodeNumber(),
+                    dbId, image, episode.getSeasonNumber(), episode.getEpisodeNumber(),
                     false, false);
             userDataList.add(data);
         }

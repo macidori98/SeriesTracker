@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import com.example.seriestracker.R;
 import com.example.seriestracker.addSeries.IAddSeriesPresenter;
 import com.example.seriestracker.common.IBasePresenter;
+import com.example.seriestracker.home.IHomeActivityPresenter;
 import com.example.seriestracker.login.ILoginPresenter;
 import com.example.seriestracker.model.TvShow;
 import com.example.seriestracker.model.UserData;
@@ -17,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -121,6 +123,37 @@ public class FirebaseHelper {
             }
 
         }
+    }
+
+    public void getUserTvShows(IHomeActivityPresenter presenter) {
+        final List<TvShow> tvShows = new ArrayList<>();
+        databaseReference = database.getReference(GlobalValues.TV_SHOWS);
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (tvShows.size() > 0) {
+                    tvShows.clear();
+                }
+
+                for (DataSnapshot data : snapshot.getChildren()) {
+                    int dbId = Integer.parseInt(data.child(GlobalValues.DB_ID).getValue().toString());
+                    String userId = data.child(GlobalValues.USER_ID).getValue().toString();
+                    String name = data.child(GlobalValues.NAME).getValue().toString();
+                    String image = data.child(GlobalValues.IMAGE_URL).getValue().toString();
+                    int seasonNumber = Integer.parseInt(data.child(GlobalValues.SEASON_NUMBER).getValue().toString());
+
+                    tvShows.add(new TvShow(userId, name, dbId, image, seasonNumber));
+                }
+
+                presenter.fetchTvShowsDone(tvShows);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void insertUser(IRegisterPresenter presenter, String name) {

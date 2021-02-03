@@ -12,7 +12,7 @@ public class TvShow {
     @PropertyName("db_id")
     private int dbId;
 
-    @PropertyName("image")
+    @PropertyName("image_url")
     private String image;
 
     @PropertyName("season_number")
@@ -56,12 +56,12 @@ public class TvShow {
         this.dbId = dbId;
     }
 
-    @PropertyName("image")
+    @PropertyName("image_url")
     public String getImage() {
         return image;
     }
 
-    @PropertyName("image")
+    @PropertyName("image_url")
     public void setImage(String image) {
         this.image = image;
     }
