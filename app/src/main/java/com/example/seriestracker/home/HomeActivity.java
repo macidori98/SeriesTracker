@@ -54,13 +54,12 @@ public class HomeActivity extends BaseActivity implements IHomeActivityView {
 
     @Override
     public void nextPage() {
-
     }
 
     @Override
     public void setUpRecyclerView(List<TvShow> tvShows, List<UserData> userData) {
-        SeriesCardAdapter adapter = new SeriesCardAdapter(tvShows, userData, this);
-        adapter.setOnClickListener(position -> Toast.makeText(HomeActivity.this, String.valueOf(position), Toast.LENGTH_SHORT).show());
+        SeriesCardAdapter adapter = new SeriesCardAdapter(tvShows, userData, this, this);
+        adapter.setOnClickListener(position -> ActivityManager.startDetailsActivity(this));
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
@@ -82,5 +81,7 @@ public class HomeActivity extends BaseActivity implements IHomeActivityView {
             ActivityManager.startLoginActivity(HomeActivity.this);
             HomeActivity.this.finish();
         });
+
+        ibExport.setOnClickListener(v -> Toast.makeText(this, "under work", Toast.LENGTH_SHORT).show());
     }
 }

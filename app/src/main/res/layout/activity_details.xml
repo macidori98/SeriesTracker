@@ -12,11 +12,24 @@
         android:layout_height="200dp"
         android:layout_marginBottom="20dp">
 
+        <ImageView
+            android:id="@+id/imageViewCover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/cover_photo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <View
             android:id="@+id/view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/background_white" />
+            android:layout_height="100dp"
+            android:background="@drawable/background"
+            app:layout_constraintBottom_toBottomOf="@+id/imageViewCover"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/textViewTitle"

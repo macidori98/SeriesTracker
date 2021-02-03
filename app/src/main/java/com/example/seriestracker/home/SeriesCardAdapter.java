@@ -1,5 +1,6 @@
 package com.example.seriestracker.home;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.seriestracker.R;
 import com.example.seriestracker.model.TvShow;
 import com.example.seriestracker.model.UserData;
+import com.example.seriestracker.utils.ActivityManager;
 import com.example.seriestracker.utils.GlobalValues;
 
 import java.util.ArrayList;
@@ -25,12 +27,14 @@ public class SeriesCardAdapter extends RecyclerView.Adapter<SeriesCardAdapter.Vi
     private final List<TvShow> tvShows;
     private final List<UserData> userData;
     private final Context context;
+    private final Activity activity;
     private OnItemClickListener listener;
 
-    public SeriesCardAdapter(List<TvShow> tvShows, List<UserData> userData, Context context) {
+    public SeriesCardAdapter(List<TvShow> tvShows, List<UserData> userData, Activity activity, Context context) {
         this.tvShows = tvShows;
         this.context = context;
         this.userData = userData;
+        this.activity = activity;
     }
 
     @NonNull
@@ -66,7 +70,7 @@ public class SeriesCardAdapter extends RecyclerView.Adapter<SeriesCardAdapter.Vi
 
         holder.tvTitle.setText(show.getName());
 
-        holder.ibDetails.setOnClickListener(v -> Toast.makeText(context, "proba", Toast.LENGTH_SHORT).show());
+        holder.ibDetails.setOnClickListener(v -> ActivityManager.startDetailsActivity(activity));
     }
 
     @Override

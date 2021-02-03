@@ -28,6 +28,9 @@ public class RegisterPresenter implements IRegisterPresenter {
         Util.setSharedPref(activity, GlobalValues.NAME, name);
         Util.setSharedPref(activity, GlobalValues.USER_ID, userId);
 
+        GlobalValues.CURRENT_USER_ID = userId;
+        GlobalValues.CURRENT_USER = name;
+
         activity.onActionSuccess(activity, textId, backgroundColorId);
         activity.nextPage();
     }
