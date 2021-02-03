@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.seriestracker.R;
 import com.example.seriestracker.common.BaseActivity;
 import com.example.seriestracker.model.TvShow;
-import com.example.seriestracker.model.UserData;
+import com.example.seriestracker.model.UserDataWithKey;
 import com.example.seriestracker.utils.ActivityManager;
 import com.example.seriestracker.utils.GlobalValues;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -57,7 +57,7 @@ public class HomeActivity extends BaseActivity implements IHomeActivityView {
     }
 
     @Override
-    public void setUpRecyclerView(List<TvShow> tvShows, List<UserData> userData) {
+    public void setUpRecyclerView(List<TvShow> tvShows, List<UserDataWithKey> userData) {
         SeriesCardAdapter adapter = new SeriesCardAdapter(tvShows, userData, this, this);
         adapter.setOnClickListener(position -> ActivityManager.startDetailsActivity(this, tvShows.get(position), userData));
 

@@ -1,7 +1,7 @@
 package com.example.seriestracker.utils;
 
 import com.example.seriestracker.model.TvShow;
-import com.example.seriestracker.model.UserData;
+import com.example.seriestracker.model.UserDataWithKey;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class GlobalValues {
     public static String CURRENT_USER;
     public static String CURRENT_USER_ID;
 
-    public static List<UserData> USERDATAS;
+    public static List<UserDataWithKey> USERDATAS;
     public static TvShow TVSHOW;
 
 }

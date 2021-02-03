@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.seriestracker.R;
 import com.example.seriestracker.model.TvShow;
-import com.example.seriestracker.model.UserData;
+import com.example.seriestracker.model.UserDataWithKey;
 import com.example.seriestracker.utils.ActivityManager;
 import com.example.seriestracker.utils.GlobalValues;
 
@@ -24,12 +24,12 @@ import java.util.List;
 
 public class SeriesCardAdapter extends RecyclerView.Adapter<SeriesCardAdapter.ViewHolder> {
     private final List<TvShow> tvShows;
-    private final List<UserData> userData;
+    private final List<UserDataWithKey> userData;
     private final Context context;
     private final Activity activity;
     private OnItemClickListener listener;
 
-    public SeriesCardAdapter(List<TvShow> tvShows, List<UserData> userData, Activity activity, Context context) {
+    public SeriesCardAdapter(List<TvShow> tvShows, List<UserDataWithKey> userData, Activity activity, Context context) {
         this.tvShows = tvShows;
         this.context = context;
         this.userData = userData;
@@ -46,7 +46,7 @@ public class SeriesCardAdapter extends RecyclerView.Adapter<SeriesCardAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull SeriesCardAdapter.ViewHolder holder, int position) {
         TvShow show = tvShows.get(position);
-        List<UserData> data = getFilteredList(show.getDbId());
+        List<UserDataWithKey> data = getFilteredList(show.getDbId());
 
         if (!show.getImage().isEmpty()) {
             String URL = GlobalValues.BASE_URL_IMAGE.concat(show.getImage());
@@ -55,7 +55,7 @@ public class SeriesCardAdapter extends RecyclerView.Adapter<SeriesCardAdapter.Vi
             holder.ivCover.setImageResource(R.drawable.placeholder);
         }
 
-        for (UserData ud : data) {
+        for (UserDataWithKey ud : data) {
             if (!ud.getSeen()) {
                 String status = context.getResources().getString(R.string.season_init)
                         .concat(String.valueOf(ud.getSeasonNumber()))
@@ -81,10 +81,10 @@ public class SeriesCardAdapter extends RecyclerView.Adapter<SeriesCardAdapter.Vi
         this.listener = listener;
     }
 
-    private List<UserData> getFilteredList(int id) {
-        List<UserData> data = new ArrayList<>();
+    private List<UserDataWithKey> getFilteredList(int id) {
+        List<UserDataWithKey> data = new ArrayList<>();
 
-        for (UserData ud : userData) {
+        for (UserDataWithKey ud : userData) {
             if (ud.getDbId() == id) {
                 data.add(ud);
             }

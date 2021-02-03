@@ -14,16 +14,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.seriestracker.R;
-import com.example.seriestracker.model.UserData;
+import com.example.seriestracker.model.UserDataWithKey;
 import com.example.seriestracker.utils.GlobalValues;
 
 import java.util.List;
 
 public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.ViewHolder> {
-    private final List<UserData> userData;
+    private final List<UserDataWithKey> userData;
     private final Context context;
 
-    public DetailsAdapter(List<UserData> userData, Context context) {
+    public DetailsAdapter(List<UserDataWithKey> userData, Context context) {
         this.userData = userData;
         this.context = context;
     }
@@ -38,7 +38,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.ViewHold
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        UserData data = userData.get(position);
+        UserDataWithKey data = userData.get(position);
         if (data.getSeen()) {
             holder.ibSeen.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_baseline_check_24));
         } else {

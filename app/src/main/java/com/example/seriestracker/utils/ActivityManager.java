@@ -8,7 +8,7 @@ import com.example.seriestracker.details.DetailsActivity;
 import com.example.seriestracker.home.HomeActivity;
 import com.example.seriestracker.login.LoginActivity;
 import com.example.seriestracker.model.TvShow;
-import com.example.seriestracker.model.UserData;
+import com.example.seriestracker.model.UserDataWithKey;
 import com.example.seriestracker.register.RegisterActivity;
 
 import java.util.List;
@@ -35,7 +35,7 @@ public class ActivityManager {
         activity.startActivity(intent);
     }
 
-    public static void startDetailsActivity(Activity activity, TvShow tvShows, List<UserData> userData) {
+    public static void startDetailsActivity(Activity activity, TvShow tvShows, List<UserDataWithKey> userData) {
         Intent intent = new Intent(activity, DetailsActivity.class);
         GlobalValues.USERDATAS = userData;
         GlobalValues.TVSHOW = tvShows;
