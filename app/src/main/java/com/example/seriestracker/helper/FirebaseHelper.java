@@ -159,6 +159,16 @@ public class FirebaseHelper {
         });
     }
 
+    public void changeSeenProperty(String id, boolean isSeen){
+        databaseReference = database.getReference(GlobalValues.USER_DATA);
+        databaseReference.child(id).child(GlobalValues.SEEN).setValue(String.valueOf(isSeen));
+    }
+
+    public void changeLikedProperty(String id, boolean isLiked){
+        databaseReference = database.getReference(GlobalValues.USER_DATA);
+        databaseReference.child(id).child(GlobalValues.LIKED).setValue(String.valueOf(isLiked));
+    }
+
     private void insertUser(IRegisterPresenter presenter, String name) {
         databaseReference = database.getReference(GlobalValues.USERS);
 

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.seriestracker.R;
+import com.example.seriestracker.helper.FirebaseHelper;
 import com.example.seriestracker.model.UserDataWithKey;
 import com.example.seriestracker.utils.GlobalValues;
 
@@ -50,10 +51,12 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.ViewHold
                 holder.ibSeen.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_not_seen));
                 userData.get(position).setSeen(false);
                 data.setSeen(false);
+                FirebaseHelper.getInstance().changeSeenProperty(data.getKey(), false);
             } else {
                 holder.ibSeen.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_baseline_check_24));
                 userData.get(position).setSeen(true);
                 data.setSeen(true);
+                FirebaseHelper.getInstance().changeSeenProperty(data.getKey(), true);
             }
         });
 
@@ -68,10 +71,12 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.ViewHold
                 holder.ibLiked.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_heart));
                 userData.get(position).setLiked(false);
                 data.setLiked(false);
+                FirebaseHelper.getInstance().changeLikedProperty(data.getKey(), false);
             } else {
                 holder.ibLiked.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_heart_simple_shape_silhouette));
                 userData.get(position).setLiked(true);
                 data.setLiked(true);
+                FirebaseHelper.getInstance().changeLikedProperty(data.getKey(), true);
             }
         });
 
