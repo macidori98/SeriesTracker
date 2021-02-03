@@ -42,4 +42,7 @@
     <string name="page_start">1</string>
     <string name="falsee">false</string>
     <string name="data_successfully_added">Data successfully added</string>
+    <string name="season_init">S</string>
+    <string name="space">\u0020</string>
+    <string name="episode_init">E</string>
 </resources>

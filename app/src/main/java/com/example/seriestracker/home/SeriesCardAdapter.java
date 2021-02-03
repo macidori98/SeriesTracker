@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,18 +15,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.seriestracker.R;
 import com.example.seriestracker.model.TvShow;
+import com.example.seriestracker.model.UserData;
 import com.example.seriestracker.utils.GlobalValues;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SeriesCardAdapter extends RecyclerView.Adapter<SeriesCardAdapter.ViewHolder> {
     private final List<TvShow> tvShows;
+    private final List<UserData> userData;
     private final Context context;
     private OnItemClickListener listener;
 
-    public SeriesCardAdapter(List<TvShow> tvShows, Context context) {
+    public SeriesCardAdapter(List<TvShow> tvShows, List<UserData> userData, Context context) {
         this.tvShows = tvShows;
         this.context = context;
+        this.userData = userData;
     }
 
     @NonNull
@@ -38,6 +43,7 @@ public class SeriesCardAdapter extends RecyclerView.Adapter<SeriesCardAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull SeriesCardAdapter.ViewHolder holder, int position) {
         TvShow show = tvShows.get(position);
+        List<UserData> data = getFilteredList(show.getDbId());
 
         if (!show.getImage().isEmpty()) {
             String URL = GlobalValues.BASE_URL_IMAGE.concat(show.getImage());
@@ -46,8 +52,21 @@ public class SeriesCardAdapter extends RecyclerView.Adapter<SeriesCardAdapter.Vi
             holder.ivCover.setImageResource(R.drawable.placeholder);
         }
 
+        for (UserData ud: data) {
+            if (!ud.getSeen()) {
+                String status = context.getResources().getString(R.string.season_init)
+                        .concat(String.valueOf(ud.getSeasonNumber()))
+                        .concat(context.getResources().getString(R.string.space))
+                        .concat(context.getResources().getString(R.string.episode_init))
+                        .concat(String.valueOf(ud.getEpisodeNumber()));
+                holder.tvStatus.setText(status);
+                break;
+            }
+        }
+
         holder.tvTitle.setText(show.getName());
-        holder.tvStatus.setText("Under work");
+
+        holder.ibDetails.setOnClickListener(v -> Toast.makeText(context, "proba", Toast.LENGTH_SHORT).show());
     }
 
     @Override
@@ -61,6 +80,18 @@ public class SeriesCardAdapter extends RecyclerView.Adapter<SeriesCardAdapter.Vi
 
     public interface OnItemClickListener {
         void onItemClick(int position);
+    }
+
+    private List<UserData> getFilteredList(int id) {
+        List<UserData> data = new ArrayList<>();
+
+        for (UserData ud : userData) {
+            if (ud.getDbId() == id) {
+                data.add(ud);
+            }
+        }
+
+        return data;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

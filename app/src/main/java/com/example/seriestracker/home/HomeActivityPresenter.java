@@ -2,6 +2,7 @@ package com.example.seriestracker.home;
 
 import com.example.seriestracker.helper.FirebaseHelper;
 import com.example.seriestracker.model.TvShow;
+import com.example.seriestracker.model.UserData;
 
 import java.util.List;
 
@@ -28,12 +29,7 @@ public class HomeActivityPresenter implements IHomeActivityPresenter {
     }
 
     @Override
-    public void fetchTvShowsDetails() {
-
-    }
-
-    @Override
-    public void fetchTvShowsDone(List<TvShow> tvShows) {
-        activity.setUpRecyclerView(tvShows);
+    public void fetchTvShowsDone(List<TvShow> tvShows, List<UserData> userData) {
+        activity.setUpRecyclerView(tvShows, userData);
     }
 }

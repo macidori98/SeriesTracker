@@ -137,16 +137,18 @@ public class FirebaseHelper {
                 }
 
                 for (DataSnapshot data : snapshot.getChildren()) {
-                    int dbId = Integer.parseInt(data.child(GlobalValues.DB_ID).getValue().toString());
                     String userId = data.child(GlobalValues.USER_ID).getValue().toString();
-                    String name = data.child(GlobalValues.NAME).getValue().toString();
-                    String image = data.child(GlobalValues.IMAGE_URL).getValue().toString();
-                    int seasonNumber = Integer.parseInt(data.child(GlobalValues.SEASON_NUMBER).getValue().toString());
+                    if (userId.equals(GlobalValues.CURRENT_USER_ID)) {
+                        int dbId = Integer.parseInt(data.child(GlobalValues.DB_ID).getValue().toString());
+                        String name = data.child(GlobalValues.NAME).getValue().toString();
+                        String image = data.child(GlobalValues.IMAGE_URL).getValue().toString();
+                        int seasonNumber = Integer.parseInt(data.child(GlobalValues.SEASON_NUMBER).getValue().toString());
 
-                    tvShows.add(new TvShow(userId, name, dbId, image, seasonNumber));
+                        tvShows.add(new TvShow(userId, name, dbId, image, seasonNumber));
+                    }
                 }
 
-                presenter.fetchTvShowsDone(tvShows);
+                getUserSeriesDetails(tvShows, presenter);
             }
 
             @Override
@@ -179,12 +181,45 @@ public class FirebaseHelper {
         databaseReference.child(id).setValue(tvShow).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 presenter.addShowSeasonsAndEpisodesToFirebase(tvShow);
-                //presenter.onSuccess(R.string.success, R.color.green);
             } else {
                 presenter.onFailure(R.string.show_not_added, R.color.red);
             }
         });
     }
 
+    private void getUserSeriesDetails(List<TvShow> tvShows, IHomeActivityPresenter presenter){
+        final List<UserData> userData = new ArrayList<>();
+        databaseReference = database.getReference(GlobalValues.USER_DATA);
 
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (userData.size() > 0) {
+                    userData.clear();
+                }
+
+                for (DataSnapshot data : snapshot.getChildren()) {
+                    String userId = data.child(GlobalValues.USER_ID).getValue().toString();
+
+                    if (userId.equals(GlobalValues.CURRENT_USER_ID)) {
+                        int dbId = Integer.parseInt(data.child(GlobalValues.DB_ID).getValue().toString());
+                        String name = data.child(GlobalValues.NAME).getValue().toString();
+                        String image = data.child(GlobalValues.IMAGE_URL).getValue().toString();
+                        int seasonNumber = Integer.parseInt(data.child(GlobalValues.SEASON_NUMBER).getValue().toString());
+                        int episodeNumber = Integer.parseInt(data.child(GlobalValues.EPISODE_NUMBER).getValue().toString());
+                        boolean liked = Boolean.parseBoolean(data.child(GlobalValues.LIKED).getValue().toString());
+                        boolean seen = Boolean.parseBoolean(data.child(GlobalValues.SEEN).getValue().toString());
+                        userData.add(new UserData(userId, name, dbId, image, seasonNumber, episodeNumber,seen,liked));
+                    }
+                }
+
+                presenter.fetchTvShowsDone(tvShows, userData);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 }

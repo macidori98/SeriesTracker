@@ -14,13 +14,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.seriestracker.R;
 import com.example.seriestracker.common.BaseActivity;
 import com.example.seriestracker.model.TvShow;
+import com.example.seriestracker.model.UserData;
 import com.example.seriestracker.utils.ActivityManager;
+import com.example.seriestracker.utils.GlobalValues;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
 public class HomeActivity extends BaseActivity implements IHomeActivityView {
-    private ImageButton ibExport;
+    private ImageButton ibExport, ibLogout;
     private FloatingActionButton fabAdd;
     private RecyclerView recyclerView;
     private IHomeActivityPresenter presenter;
@@ -33,6 +35,7 @@ public class HomeActivity extends BaseActivity implements IHomeActivityView {
         setContentView(R.layout.activity_home);
 
         ibExport = findViewById(R.id.imageButtonExport);
+        ibLogout = findViewById(R.id.imageButtonLogout);
         fabAdd = findViewById(R.id.floatingActionButtonAddSeries);
         recyclerView = findViewById(R.id.recyclerViewSeries);
         progressBar = findViewById(R.id.progressBar);
@@ -55,8 +58,8 @@ public class HomeActivity extends BaseActivity implements IHomeActivityView {
     }
 
     @Override
-    public void setUpRecyclerView(List<TvShow> tvShows) {
-        SeriesCardAdapter adapter = new SeriesCardAdapter(tvShows, this);
+    public void setUpRecyclerView(List<TvShow> tvShows, List<UserData> userData) {
+        SeriesCardAdapter adapter = new SeriesCardAdapter(tvShows, userData, this);
         adapter.setOnClickListener(position -> Toast.makeText(HomeActivity.this, String.valueOf(position), Toast.LENGTH_SHORT).show());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -73,5 +76,11 @@ public class HomeActivity extends BaseActivity implements IHomeActivityView {
 
     private void setOnClickListeners() {
         fabAdd.setOnClickListener(v -> ActivityManager.startAddSeriesActivity(HomeActivity.this));
+
+        ibLogout.setOnClickListener(v -> {
+            GlobalValues.CURRENT_USER = GlobalValues.CURRENT_USER_ID = "";
+            ActivityManager.startLoginActivity(HomeActivity.this);
+            HomeActivity.this.finish();
+        });
     }
 }
