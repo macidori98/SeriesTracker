@@ -69,7 +69,7 @@ public class SeriesCardAdapter extends RecyclerView.Adapter<SeriesCardAdapter.Vi
 
         holder.tvTitle.setText(show.getName());
 
-        holder.ibDetails.setOnClickListener(v -> ActivityManager.startDetailsActivity(activity));
+        holder.ibDetails.setOnClickListener(v -> ActivityManager.startDetailsActivity(activity, show, userData));
     }
 
     @Override

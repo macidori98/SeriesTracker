@@ -59,7 +59,7 @@ public class HomeActivity extends BaseActivity implements IHomeActivityView {
     @Override
     public void setUpRecyclerView(List<TvShow> tvShows, List<UserData> userData) {
         SeriesCardAdapter adapter = new SeriesCardAdapter(tvShows, userData, this, this);
-        adapter.setOnClickListener(position -> ActivityManager.startDetailsActivity(this));
+        adapter.setOnClickListener(position -> ActivityManager.startDetailsActivity(this, tvShows.get(position), userData));
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
