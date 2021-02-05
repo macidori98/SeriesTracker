@@ -91,7 +91,9 @@ public class FirebaseHelper {
 
                 for (DataSnapshot snap : snapshot.getChildren()) {
                     String showTitle = Objects.requireNonNull(snap.child(GlobalValues.NAME).getValue()).toString();
-                    if (showTitle.equals(title)) {
+                    String userId = Objects.requireNonNull(snap.child(GlobalValues.USER_ID).getValue()).toString();
+
+                    if (showTitle.equals(title) && userId.equals(GlobalValues.CURRENT_USER_ID)) {
                         exists = true;
                         presenter.onFailure(R.string.series_already_added, R.color.primaryColor);
                         break;
@@ -117,10 +119,10 @@ public class FirebaseHelper {
             String id = databaseReference.push().getKey();
 
             if (userData.getName().equals(data.get(data.size() - 1).getName())) {
-                databaseReference.child(id).setValue(userData).addOnFailureListener(e -> presenter.onFailure(R.string.fail, R.color.red))
+                databaseReference.child(Objects.requireNonNull(id)).setValue(userData).addOnFailureListener(e -> presenter.onFailure(R.string.fail, R.color.red))
                         .addOnCompleteListener(task -> presenter.onSuccess(R.string.data_successfully_added, R.color.green));
             } else {
-                databaseReference.child(id).setValue(userData).addOnFailureListener(e -> presenter.onFailure(R.string.fail, R.color.red));
+                databaseReference.child(Objects.requireNonNull(id)).setValue(userData).addOnFailureListener(e -> presenter.onFailure(R.string.fail, R.color.red));
             }
 
         }
@@ -138,12 +140,12 @@ public class FirebaseHelper {
                 }
 
                 for (DataSnapshot data : snapshot.getChildren()) {
-                    String userId = data.child(GlobalValues.USER_ID).getValue().toString();
+                    String userId = Objects.requireNonNull(data.child(GlobalValues.USER_ID).getValue()).toString();
                     if (userId.equals(GlobalValues.CURRENT_USER_ID)) {
-                        int dbId = Integer.parseInt(data.child(GlobalValues.DB_ID).getValue().toString());
-                        String name = data.child(GlobalValues.NAME).getValue().toString();
-                        String image = data.child(GlobalValues.IMAGE_URL).getValue().toString();
-                        int seasonNumber = Integer.parseInt(data.child(GlobalValues.SEASON_NUMBER).getValue().toString());
+                        int dbId = Integer.parseInt(Objects.requireNonNull(data.child(GlobalValues.DB_ID).getValue()).toString());
+                        String name = Objects.requireNonNull(data.child(GlobalValues.NAME).getValue()).toString();
+                        String image = Objects.requireNonNull(data.child(GlobalValues.IMAGE_URL).getValue()).toString();
+                        int seasonNumber = Integer.parseInt(Objects.requireNonNull(data.child(GlobalValues.SEASON_NUMBER).getValue()).toString());
 
                         tvShows.add(new TvShow(userId, name, dbId, image, seasonNumber));
                     }
@@ -189,7 +191,7 @@ public class FirebaseHelper {
 
         String id = databaseReference.push().getKey();
 
-        databaseReference.child(id).setValue(tvShow).addOnCompleteListener(task -> {
+        databaseReference.child(Objects.requireNonNull(id)).setValue(tvShow).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 presenter.addShowSeasonsAndEpisodesToFirebase(tvShow);
             } else {
@@ -210,17 +212,17 @@ public class FirebaseHelper {
                 }
 
                 for (DataSnapshot data : snapshot.getChildren()) {
-                    String userId = data.child(GlobalValues.USER_ID).getValue().toString();
+                    String userId = Objects.requireNonNull(data.child(GlobalValues.USER_ID).getValue()).toString();
 
                     if (userId.equals(GlobalValues.CURRENT_USER_ID)) {
                         String key = data.getKey();
-                        int dbId = Integer.parseInt(data.child(GlobalValues.DB_ID).getValue().toString());
-                        String name = data.child(GlobalValues.NAME).getValue().toString();
-                        String image = data.child(GlobalValues.IMAGE_URL).getValue().toString();
-                        int seasonNumber = Integer.parseInt(data.child(GlobalValues.SEASON_NUMBER).getValue().toString());
-                        int episodeNumber = Integer.parseInt(data.child(GlobalValues.EPISODE_NUMBER).getValue().toString());
-                        boolean liked = Boolean.parseBoolean(data.child(GlobalValues.LIKED).getValue().toString());
-                        boolean seen = Boolean.parseBoolean(data.child(GlobalValues.SEEN).getValue().toString());
+                        int dbId = Integer.parseInt(Objects.requireNonNull(data.child(GlobalValues.DB_ID).getValue()).toString());
+                        String name = Objects.requireNonNull(data.child(GlobalValues.NAME).getValue()).toString();
+                        String image = Objects.requireNonNull(data.child(GlobalValues.IMAGE_URL).getValue()).toString();
+                        int seasonNumber = Integer.parseInt(Objects.requireNonNull(data.child(GlobalValues.SEASON_NUMBER).getValue()).toString());
+                        int episodeNumber = Integer.parseInt(Objects.requireNonNull(data.child(GlobalValues.EPISODE_NUMBER).getValue()).toString());
+                        boolean liked = Boolean.parseBoolean(Objects.requireNonNull(data.child(GlobalValues.LIKED).getValue()).toString());
+                        boolean seen = Boolean.parseBoolean(Objects.requireNonNull(data.child(GlobalValues.SEEN).getValue()).toString());
                         userData.add(new UserDataWithKey(userId, name, dbId, image, seasonNumber, episodeNumber, seen, liked, key));
                     }
                 }

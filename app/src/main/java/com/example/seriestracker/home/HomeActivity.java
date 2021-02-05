@@ -48,6 +48,7 @@ public class HomeActivity extends BaseActivity implements IHomeActivityView {
     @Override
     protected void onResume() {
         super.onResume();
+
         progressBar.setVisibility(View.VISIBLE);
         presenter.fetchTvShows();
     }

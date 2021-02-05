@@ -18,6 +18,14 @@ public class TvShow {
     @PropertyName("season_number")
     private int seasonNumber;
 
+    public TvShow() {
+        this.userId = "";
+        this.name = "";
+        this.dbId = -1;
+        this.image = "";
+        this.seasonNumber = -1;
+    }
+
     public TvShow(String userId, String name, int dbId, String image, int seasonNumber) {
         this.userId = userId;
         this.name = name;
