@@ -15,6 +15,7 @@ import com.example.seriestracker.utils.GlobalValues;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,7 +24,7 @@ import retrofit2.internal.EverythingIsNonNull;
 
 public class AddSeriesPresenter implements IAddSeriesPresenter {
     private final AddSeriesActivity activity;
-    private List<UserData> userDataList = new ArrayList<>();
+    private final List<UserData> userDataList = new ArrayList<>();
 
     public AddSeriesPresenter(AddSeriesActivity activity) {
         this.activity = activity;
@@ -47,7 +48,7 @@ public class AddSeriesPresenter implements IAddSeriesPresenter {
                 if (response.code() == 200) {
                     SearchSeriesResponse searchSeriesResponse = response.body();
 
-                    if (searchSeriesResponse.getSearchSeriesList() == null) {
+                    if (Objects.requireNonNull(searchSeriesResponse).getSearchSeriesList() == null) {
                         searchSeriesResponse.setSearchSeriesList(new ArrayList<>());
                     }
 
@@ -95,7 +96,7 @@ public class AddSeriesPresenter implements IAddSeriesPresenter {
                 public void onResponse(Call<TvShowSeasonDetailsRoot> call, Response<TvShowSeasonDetailsRoot> response) {
                     if (response.code() == 200) {
                         TvShowSeasonDetailsRoot seasonDetails = response.body();
-                        List<TvShowEpisode> showEpisode = seasonDetails.getEpisodes();
+                        List<TvShowEpisode> showEpisode = Objects.requireNonNull(seasonDetails).getEpisodes();
 
                         prepareDataForFirebase(showEpisode, tvShow.getDbId());
 
@@ -138,7 +139,7 @@ public class AddSeriesPresenter implements IAddSeriesPresenter {
             public void onResponse(Call<TvShowDetails> call, Response<TvShowDetails> response) {
                 if (response.code() == 200) {
                     TvShowDetails detail = response.body();
-                    int number = detail.getNumberOfSeasons();
+                    int number = Objects.requireNonNull(detail).getNumberOfSeasons();
                     FirebaseHelper.getInstance().checkIfUserAlreadyAddedTvShow(new TvShow(GlobalValues.CURRENT_USER_ID, series.getName(),
                             series.getId(), series.getImage(), number), AddSeriesPresenter.this);
                 } else {

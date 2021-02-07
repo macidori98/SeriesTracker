@@ -204,7 +204,7 @@ public class FirebaseHelper {
         final List<UserDataWithKey> userData = new ArrayList<>();
         databaseReference = database.getReference(GlobalValues.USER_DATA);
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (userData.size() > 0) {
