@@ -140,7 +140,7 @@ public class AddSeriesPresenter implements IAddSeriesPresenter {
                 if (response.code() == 200) {
                     TvShowDetails detail = response.body();
                     int number = Objects.requireNonNull(detail).getNumberOfSeasons();
-                    FirebaseHelper.getInstance().checkIfUserAlreadyAddedTvShow(new TvShow(GlobalValues.CURRENT_USER_ID, series.getName(),
+                    FirebaseHelper.getInstance().checkIfUserAlreadyAddedTvShow(new TvShow("", GlobalValues.CURRENT_USER_ID, series.getName(),
                             series.getId(), series.getImage(), number), AddSeriesPresenter.this);
                 } else {
                     activity.onActionFailure(activity, R.string.fail, R.color.red);

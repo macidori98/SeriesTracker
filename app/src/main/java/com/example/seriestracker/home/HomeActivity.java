@@ -1,5 +1,7 @@
 package com.example.seriestracker.home;
 
+import android.content.Context;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -7,7 +9,10 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,12 +26,16 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
+
 public class HomeActivity extends BaseActivity implements IHomeActivityView {
     private ImageButton ibExport, ibLogout;
     private FloatingActionButton fabAdd;
     private RecyclerView recyclerView;
     private IHomeActivityPresenter presenter;
     private ProgressBar progressBar;
+    private SeriesCardAdapter adapter;
+    private List<TvShow> tvShows;
 
 
     @Override
@@ -43,6 +52,7 @@ public class HomeActivity extends BaseActivity implements IHomeActivityView {
         presenter = new HomeActivityPresenter(this);
 
         setOnClickListeners();
+        setRecyclerViewSwipeAction();
     }
 
     @Override
@@ -58,8 +68,22 @@ public class HomeActivity extends BaseActivity implements IHomeActivityView {
     }
 
     @Override
+    public void onActionFailure(Context context, int message, int color) {
+        super.onActionFailure(context, message, color);
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onActionSuccess(Context context, int message, int color) {
+        super.onActionSuccess(context, message, color);
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
     public void setUpRecyclerView(List<TvShow> tvShows, List<UserDataWithKey> userData) {
-        SeriesCardAdapter adapter = new SeriesCardAdapter(tvShows, userData, this, this);
+        this.tvShows = tvShows;
+
+        adapter = new SeriesCardAdapter(tvShows, userData, this, this);
         adapter.setOnClickListener(position -> ActivityManager.startDetailsActivity(this, tvShows.get(position), userData));
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -84,5 +108,37 @@ public class HomeActivity extends BaseActivity implements IHomeActivityView {
         });
 
         ibExport.setOnClickListener(v -> Toast.makeText(this, "under work", Toast.LENGTH_SHORT).show());
+    }
+
+    private void setRecyclerViewSwipeAction() {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                progressBar.setVisibility(View.VISIBLE);
+
+                int position = viewHolder.getAdapterPosition();
+
+                presenter.deleteTvShow(tvShows.get(position));
+                adapter.notifyItemRemoved(position);
+            }
+
+            @SuppressWarnings("deprecation")
+            @Override
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+
+                new RecyclerViewSwipeDecorator.Builder(HomeActivity.this, c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                        .addSwipeLeftBackgroundColor(ContextCompat.getColor(HomeActivity.this, R.color.red))
+                        .addSwipeLeftActionIcon(R.drawable.ic_baseline_delete_24)
+                        .setActionIconTint(ContextCompat.getColor(recyclerView.getContext(), android.R.color.white))
+                        .create()
+                        .decorate();
+            }
+        }).attachToRecyclerView(recyclerView);
     }
 }

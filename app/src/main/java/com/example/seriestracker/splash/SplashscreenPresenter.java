@@ -29,6 +29,8 @@ public class SplashscreenPresenter implements ISpalshscreenPresenter {
                 } else {
                     activity.nextPage(activity, new HomeActivity());
                 }
+
+                activity.finish();
             }
         }.start();
     }

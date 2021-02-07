@@ -83,17 +83,18 @@ public class FirebaseHelper {
 
     public void checkIfUserAlreadyAddedTvShow(TvShow tvShow, IAddSeriesPresenter presenter) {
         databaseReference = database.getReference(GlobalValues.TV_SHOWS);
+
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 boolean exists = false;
-                String title = tvShow.getName();
+                int dbId = tvShow.getDbId();
 
                 for (DataSnapshot snap : snapshot.getChildren()) {
-                    String showTitle = Objects.requireNonNull(snap.child(GlobalValues.NAME).getValue()).toString();
+                    int showId = Integer.parseInt(Objects.requireNonNull(snap.child(GlobalValues.DB_ID).getValue()).toString());
                     String userId = Objects.requireNonNull(snap.child(GlobalValues.USER_ID).getValue()).toString();
 
-                    if (showTitle.equals(title) && userId.equals(GlobalValues.CURRENT_USER_ID)) {
+                    if (dbId == showId && userId.equals(GlobalValues.CURRENT_USER_ID)) {
                         exists = true;
                         presenter.onFailure(R.string.series_already_added, R.color.primaryColor);
                         break;
@@ -142,12 +143,13 @@ public class FirebaseHelper {
                 for (DataSnapshot data : snapshot.getChildren()) {
                     String userId = Objects.requireNonNull(data.child(GlobalValues.USER_ID).getValue()).toString();
                     if (userId.equals(GlobalValues.CURRENT_USER_ID)) {
+                        String tvShowId = Objects.requireNonNull(data.child(GlobalValues.TV_SHOW_ID).getValue()).toString();
                         int dbId = Integer.parseInt(Objects.requireNonNull(data.child(GlobalValues.DB_ID).getValue()).toString());
                         String name = Objects.requireNonNull(data.child(GlobalValues.NAME).getValue()).toString();
                         String image = Objects.requireNonNull(data.child(GlobalValues.IMAGE_URL).getValue()).toString();
                         int seasonNumber = Integer.parseInt(Objects.requireNonNull(data.child(GlobalValues.SEASON_NUMBER).getValue()).toString());
 
-                        tvShows.add(new TvShow(userId, name, dbId, image, seasonNumber));
+                        tvShows.add(new TvShow(tvShowId, userId, name, dbId, image, seasonNumber));
                     }
                 }
 
@@ -161,14 +163,41 @@ public class FirebaseHelper {
         });
     }
 
-    public void changeSeenProperty(String id, boolean isSeen){
+    public void changeSeenProperty(String id, boolean isSeen) {
         databaseReference = database.getReference(GlobalValues.USER_DATA);
         databaseReference.child(id).child(GlobalValues.SEEN).setValue(String.valueOf(isSeen));
     }
 
-    public void changeLikedProperty(String id, boolean isLiked){
+    public void changeLikedProperty(String id, boolean isLiked) {
         databaseReference = database.getReference(GlobalValues.USER_DATA);
         databaseReference.child(id).child(GlobalValues.LIKED).setValue(String.valueOf(isLiked));
+    }
+
+    public void deleteShow(TvShow tvShow, IHomeActivityPresenter presenter) {
+        databaseReference = database.getReference(GlobalValues.USER_DATA);
+        int showId = tvShow.getDbId();
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot data : snapshot.getChildren()) {
+                    String userId = Objects.requireNonNull(data.child(GlobalValues.USER_ID).getValue()).toString();
+                    int dbId = Integer.parseInt(Objects.requireNonNull(data.child(GlobalValues.DB_ID).getValue()).toString());
+
+                    if (userId.equals(GlobalValues.CURRENT_USER_ID) && dbId == showId) {
+                        database.getReference(GlobalValues.USER_DATA).child(Objects.requireNonNull(data.getKey())).removeValue();
+                    }
+                }
+
+                FirebaseDatabase.getInstance().getReference(GlobalValues.TV_SHOWS).child(tvShow.getTvShowId()).removeValue();
+                presenter.onSuccess(R.string.successfully_deleted, R.color.green);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                presenter.onFailure(R.string.fail_delete, R.color.red);
+            }
+        });
     }
 
     private void insertUser(IRegisterPresenter presenter, String name) {
@@ -190,6 +219,7 @@ public class FirebaseHelper {
         databaseReference = database.getReference(GlobalValues.TV_SHOWS);
 
         String id = databaseReference.push().getKey();
+        tvShow.setTvShowId(id);
 
         databaseReference.child(Objects.requireNonNull(id)).setValue(tvShow).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {

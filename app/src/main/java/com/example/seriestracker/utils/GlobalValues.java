@@ -19,6 +19,7 @@ public class GlobalValues {
     public static final String API_KEY = "55ad3422681300f02641616898bdbee0";
     public static final String USERS = "users";
     public static final String TV_SHOWS = "tv_shows";
+    public static final String TV_SHOW_ID = "tvShow_id";
     public static final String USER_DATA = "user_data";
     public static final String USER_ID = "user_id";
     public static final String NAME = "name";

@@ -10,4 +10,6 @@ public interface IHomeActivityPresenter extends IBasePresenter {
     void fetchTvShows();
 
     void fetchTvShowsDone(List<TvShow> tvShowList, List<UserDataWithKey> userData);
+
+    void deleteTvShow(TvShow tvShow);
 }

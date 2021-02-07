@@ -3,6 +3,9 @@ package com.example.seriestracker.model;
 import com.google.firebase.database.PropertyName;
 
 public class TvShow {
+    @PropertyName("tvShow_id")
+    private String tvShowId;
+
     @PropertyName("user_id")
     private String userId;
 
@@ -24,14 +27,26 @@ public class TvShow {
         this.dbId = -1;
         this.image = "";
         this.seasonNumber = -1;
+        this.tvShowId = "";
     }
 
-    public TvShow(String userId, String name, int dbId, String image, int seasonNumber) {
+    public TvShow(String tvShowId, String userId, String name, int dbId, String image, int seasonNumber) {
+        this.tvShowId = tvShowId;
         this.userId = userId;
         this.name = name;
         this.dbId = dbId;
         this.image = image;
         this.seasonNumber = seasonNumber;
+    }
+
+    @PropertyName("tvShow_id")
+    public String getTvShowId() {
+        return tvShowId;
+    }
+
+    @PropertyName("tvShow_id")
+    public void setTvShowId(String tvShowId) {
+        this.tvShowId = tvShowId;
     }
 
     @PropertyName("user_id")

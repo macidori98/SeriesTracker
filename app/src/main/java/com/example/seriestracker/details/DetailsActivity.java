@@ -44,7 +44,7 @@ public class DetailsActivity extends AppCompatActivity {
         spinnerSeason.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != 0){
+                if (position != 0) {
                     List<UserDataWithKey> elements = getSeasonEpisodes(position);
                     DetailsAdapter adapter = new DetailsAdapter(elements, DetailsActivity.this);
 
@@ -71,7 +71,7 @@ public class DetailsActivity extends AppCompatActivity {
         int id = GlobalValues.TVSHOW.getDbId();
 
         List<UserDataWithKey> userDataWithKeys = new ArrayList<>();
-        for (UserDataWithKey udwk: GlobalValues.USERDATAS) {
+        for (UserDataWithKey udwk : GlobalValues.USERDATAS) {
             if (udwk.getSeasonNumber() == season && udwk.getDbId() == id) {
                 userDataWithKeys.add(udwk);
             }
