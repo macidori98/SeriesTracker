@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -36,6 +37,7 @@ public class HomeActivity extends BaseActivity implements IHomeActivityView {
     private ProgressBar progressBar;
     private SeriesCardAdapter adapter;
     private List<TvShow> tvShows;
+    private TextView tvNoEntries;
 
 
     @Override
@@ -48,6 +50,7 @@ public class HomeActivity extends BaseActivity implements IHomeActivityView {
         fabAdd = findViewById(R.id.floatingActionButtonAddSeries);
         recyclerView = findViewById(R.id.recyclerViewSeries);
         progressBar = findViewById(R.id.progressBar);
+        tvNoEntries = findViewById(R.id.textViewNoEntries);
 
         presenter = new HomeActivityPresenter(this);
 
@@ -83,19 +86,28 @@ public class HomeActivity extends BaseActivity implements IHomeActivityView {
     public void setUpRecyclerView(List<TvShow> tvShows, List<UserDataWithKey> userData) {
         this.tvShows = tvShows;
 
-        adapter = new SeriesCardAdapter(tvShows, userData, this, this);
-        adapter.setOnClickListener(position -> ActivityManager.startDetailsActivity(this, tvShows.get(position), userData));
+        if (tvShows.size()==0) {
+            tvNoEntries.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            tvNoEntries.setVisibility(View.GONE);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
-        recyclerView.getViewTreeObserver()
-                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        progressBar.setVisibility(View.GONE);
-                        recyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    }
-                });
+            adapter = new SeriesCardAdapter(tvShows, userData, this, this);
+            adapter.setOnClickListener(position -> ActivityManager.startDetailsActivity(this, tvShows.get(position), userData));
+
+            recyclerView.setVisibility(View.VISIBLE);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setAdapter(adapter);
+            recyclerView.getViewTreeObserver()
+                    .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            progressBar.setVisibility(View.GONE);
+                            recyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        }
+                    });
+        }
     }
 
     private void setOnClickListeners() {
