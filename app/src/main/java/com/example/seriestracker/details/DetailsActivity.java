@@ -1,6 +1,5 @@
 package com.example.seriestracker.details;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,7 +20,6 @@ import com.example.seriestracker.model.UserDataWithKey;
 import com.example.seriestracker.utils.GlobalValues;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class DetailsActivity extends AppCompatActivity {
@@ -83,7 +81,7 @@ public class DetailsActivity extends AppCompatActivity {
             Integer x1 = o1.getEpisodeNumber();
             Integer x2 = o2.getEpisodeNumber();
 
-            return  x1.compareTo(x2);
+            return x1.compareTo(x2);
         });
 
         return userDataWithKeys;

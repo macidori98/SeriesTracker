@@ -20,8 +20,6 @@ import com.example.seriestracker.utils.ActivityManager;
 import com.example.seriestracker.utils.GlobalValues;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class SeriesCardAdapter extends RecyclerView.Adapter<SeriesCardAdapter.ViewHolder> {
