@@ -14,4 +14,6 @@ public interface IHomeActivityPresenter extends IBasePresenter {
     void deleteTvShow(TvShow tvShow);
 
     void exportData(List<TvShow> tvShows, List<UserDataWithKey> userData);
+
+    void checkPermission();
 }

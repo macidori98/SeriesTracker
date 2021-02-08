@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface IHomeActivityView {
     void setUpRecyclerView(List<TvShow> tvShows, List<UserDataWithKey> userData);
+
+    void export();
 }

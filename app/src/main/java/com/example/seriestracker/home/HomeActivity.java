@@ -1,6 +1,7 @@
 package com.example.seriestracker.home;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.View;
@@ -111,6 +112,21 @@ public class HomeActivity extends BaseActivity implements IHomeActivityView {
         }
     }
 
+    @Override
+    public void export() {
+        progressBar.setVisibility(View.VISIBLE);
+        presenter.exportData(tvShows, userData);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            progressBar.setVisibility(View.VISIBLE);
+            presenter.exportData(tvShows, userData);
+        }
+    }
+
     private void setOnClickListeners() {
         fabAdd.setOnClickListener(v -> ActivityManager.startAddSeriesActivity(HomeActivity.this));
 
@@ -120,10 +136,7 @@ public class HomeActivity extends BaseActivity implements IHomeActivityView {
             HomeActivity.this.finish();
         });
 
-        ibExport.setOnClickListener(v -> {
-            progressBar.setVisibility(View.VISIBLE);
-            presenter.exportData(tvShows, userData);
-        });
+        ibExport.setOnClickListener(v -> presenter.checkPermission());
     }
 
     private void setRecyclerViewSwipeAction() {

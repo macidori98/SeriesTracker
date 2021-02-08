@@ -1,5 +1,11 @@
 package com.example.seriestracker.home;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.example.seriestracker.helper.FirebaseHelper;
 import com.example.seriestracker.model.TvShow;
 import com.example.seriestracker.model.UserDataWithKey;
@@ -42,5 +48,16 @@ public class HomeActivityPresenter implements IHomeActivityPresenter {
     @Override
     public void exportData(List<TvShow> tvShows, List<UserDataWithKey> userData) {
         ExportData.export(this, activity, tvShows, userData);
+    }
+
+    @Override
+    public void checkPermission() {
+        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+        } else {
+            activity.export();
+        }
     }
 }
