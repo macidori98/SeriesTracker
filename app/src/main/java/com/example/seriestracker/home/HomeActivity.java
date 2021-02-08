@@ -8,7 +8,6 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,6 +37,7 @@ public class HomeActivity extends BaseActivity implements IHomeActivityView {
     private SeriesCardAdapter adapter;
     private List<TvShow> tvShows;
     private TextView tvNoEntries;
+    private List<UserDataWithKey> userData;
 
 
     @Override
@@ -85,8 +85,9 @@ public class HomeActivity extends BaseActivity implements IHomeActivityView {
     @Override
     public void setUpRecyclerView(List<TvShow> tvShows, List<UserDataWithKey> userData) {
         this.tvShows = tvShows;
+        this.userData = userData;
 
-        if (tvShows.size()==0) {
+        if (tvShows.size() == 0) {
             tvNoEntries.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);
             recyclerView.setVisibility(View.GONE);
@@ -119,7 +120,10 @@ public class HomeActivity extends BaseActivity implements IHomeActivityView {
             HomeActivity.this.finish();
         });
 
-        ibExport.setOnClickListener(v -> Toast.makeText(this, "under work", Toast.LENGTH_SHORT).show());
+        ibExport.setOnClickListener(v -> {
+            progressBar.setVisibility(View.VISIBLE);
+            presenter.exportData(tvShows, userData);
+        });
     }
 
     private void setRecyclerViewSwipeAction() {

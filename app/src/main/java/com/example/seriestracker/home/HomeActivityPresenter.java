@@ -3,6 +3,7 @@ package com.example.seriestracker.home;
 import com.example.seriestracker.helper.FirebaseHelper;
 import com.example.seriestracker.model.TvShow;
 import com.example.seriestracker.model.UserDataWithKey;
+import com.example.seriestracker.utils.ExportData;
 
 import java.util.List;
 
@@ -36,5 +37,10 @@ public class HomeActivityPresenter implements IHomeActivityPresenter {
     @Override
     public void deleteTvShow(TvShow tvShow) {
         FirebaseHelper.getInstance().deleteShow(tvShow, this);
+    }
+
+    @Override
+    public void exportData(List<TvShow> tvShows, List<UserDataWithKey> userData) {
+        ExportData.export(this, activity, tvShows, userData);
     }
 }

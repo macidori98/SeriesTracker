@@ -30,6 +30,31 @@ public class GlobalValues {
     public static final String SEEN = "seen";
     public static final String LIKED = "liked";
 
+    public static final String TABLE_TV_SHOWS = "CREATE TABLE IF NOT EXISTS tv_shows (\n" +
+            "tvShow_id TEXT PRIMARY KEY,\n" +
+            "db_id INTEGER NOT NULL,\n" +
+            "image_url TEXT NOT NULL,\n" +
+            "name TEXT NOT NULL,\n" +
+            "season_number INTEGER NOT NULL,\n" +
+            "user_id TEXT NOT NULL\n" +
+            ");\n" +
+            "\n" +
+            "INSERT INTO tv_shows (tvShow_id, db_id, image_url, name, season_number, user_id) VALUES";
+
+    public static final String TABLE_USER_DATA = "CREATE TABLE IF NOT EXISTS user_data (\n" +
+            "key TEXT PRIMARY KEY,\n" +
+            "db_id INTEGER NOT NULL,\n" +
+            "image_url TEXT NOT NULL,\n" +
+            "name TEXT NOT NULL,\n" +
+            "season_number INTEGER NOT NULL,\n" +
+            "episode_number INTEGER NOT NULL,\n" +
+            "user_id TEXT NOT NULL,\n" +
+            "liked INTEGER NOT NULL,\n" +
+            "seen INTEGER NOT NULL\n" +
+            ");\n" +
+            "\n" +
+            "INSERT INTO user_data (key, db_id, image_url, name, season_number, episode_number, user_id, liked, seen) VALUES";
+
     public static String CURRENT_USER;
     public static String CURRENT_USER_ID;
 
