@@ -20,6 +20,8 @@ import com.example.seriestracker.utils.ActivityManager;
 import com.example.seriestracker.utils.GlobalValues;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class SeriesCardAdapter extends RecyclerView.Adapter<SeriesCardAdapter.ViewHolder> {
@@ -89,6 +91,13 @@ public class SeriesCardAdapter extends RecyclerView.Adapter<SeriesCardAdapter.Vi
                 data.add(ud);
             }
         }
+
+        data.sort((o1, o2) -> {
+            Integer x1 = o1.getSeasonNumber();
+            Integer x2 = o2.getSeasonNumber();
+
+            return x1.compareTo(x2);
+        });
 
         return data;
     }
