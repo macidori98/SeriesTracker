@@ -10,7 +10,9 @@ import com.example.seriestracker.helper.FirebaseHelper;
 import com.example.seriestracker.model.TvShow;
 import com.example.seriestracker.model.UserDataWithKey;
 import com.example.seriestracker.utils.ExportData;
+import com.example.seriestracker.utils.GlobalValues;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivityPresenter implements IHomeActivityPresenter {
@@ -37,12 +39,19 @@ public class HomeActivityPresenter implements IHomeActivityPresenter {
 
     @Override
     public void fetchTvShowsDone(List<TvShow> tvShows, List<UserDataWithKey> userData) {
+        if (tvShows == null) {
+            GlobalValues.TVSHOWS = new ArrayList<>();
+        } else {
+            GlobalValues.TVSHOWS = tvShows;
+        }
         activity.setUpRecyclerView(tvShows, userData);
     }
 
     @Override
     public void deleteTvShow(TvShow tvShow) {
         FirebaseHelper.getInstance().deleteShow(tvShow, this);
+
+        //deleteShowFromTvShowDetails(tvShow.getDbId());
     }
 
     @Override
@@ -60,4 +69,14 @@ public class HomeActivityPresenter implements IHomeActivityPresenter {
             activity.export();
         }
     }
+
+    /*private void deleteShowFromTvShowDetails(int id) {
+        for (int i = 0; i < GlobalValues.TV_SHOW_DETAILS.size(); ++i) {
+            TvShowDetails details = GlobalValues.TV_SHOW_DETAILS.get(i);
+            if (details.getId() == id) {
+                GlobalValues.TV_SHOW_DETAILS.remove(i);
+                break;
+            }
+        }
+    }*/
 }

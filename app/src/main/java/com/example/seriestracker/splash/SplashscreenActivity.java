@@ -26,6 +26,12 @@ public class SplashscreenActivity extends BaseActivity {
 
         setUpAnimation();
         startCountDown();
+        presenter.setUpNotification();
+    }
+
+    @Override
+    public void nextPage() {
+        ActivityManager.startLoginActivity(this);
     }
 
     private void setUpAnimation() {
@@ -35,11 +41,6 @@ public class SplashscreenActivity extends BaseActivity {
 
     private void startCountDown() {
         presenter.setUpCountDown();
-    }
-
-    @Override
-    public void nextPage() {
-        ActivityManager.startLoginActivity(this);
     }
 
 }

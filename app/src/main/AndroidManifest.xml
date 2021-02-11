@@ -26,6 +26,11 @@
         <activity android:name=".home.HomeActivity" />
         <activity android:name=".addSeries.AddSeriesActivity" />
         <activity android:name=".details.DetailsActivity" />
+
+        <!--receiver
+            android:name=".recievers.MyReciever"
+            android:enabled="true"
+            android:exported="false" /-->
     </application>
 
 </manifest>

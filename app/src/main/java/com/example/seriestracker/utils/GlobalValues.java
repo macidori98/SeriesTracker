@@ -1,6 +1,7 @@
 package com.example.seriestracker.utils;
 
 import com.example.seriestracker.model.TvShow;
+import com.example.seriestracker.model.TvShowDetails;
 import com.example.seriestracker.model.UserDataWithKey;
 
 import java.util.List;
@@ -13,6 +14,8 @@ public class GlobalValues {
     public static final int TOAST_OFFSET = 40;
     public static final int PADDING_VERTICAL = 15;
     public static final int PADDING_HORIZONTAL = 35;
+    public static final int NOTIFICATION_ID = 0;
+    public static final int SUCCESSFUL_CODE = 200;
     //db values
     public static final String BASE_URL = "https://api.themoviedb.org/";
     public static final String BASE_URL_IMAGE = "https://image.tmdb.org/t/p/w500/";
@@ -55,10 +58,14 @@ public class GlobalValues {
             "\n" +
             "INSERT INTO user_data (key, db_id, image_url, name, season_number, episode_number, user_id, liked, seen) VALUES";
 
+    public static final String PRIMARY_CHANNEL_ID = "primary_notification_channel";
+
     public static String CURRENT_USER;
     public static String CURRENT_USER_ID;
 
     public static List<UserDataWithKey> USERDATAS;
+    public static List<TvShow> TVSHOWS;
+   // public static List<TvShowDetails> TV_SHOW_DETAILS;
     public static TvShow TVSHOW;
 
 }

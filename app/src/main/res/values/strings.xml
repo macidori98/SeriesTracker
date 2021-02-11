@@ -30,6 +30,12 @@
     <string name="add_new_series">Would you like to add</string>
     <string name="show_not_added">Show not added</string>
     <string name="series_already_added">TV show already added</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="question_mark">\?</string>
+    <string name="choose_season">Choose season</string>
+    <string name="season">Season\u0020</string>
+    <string name="data_successfully_added">Data successfully added</string>
 
     <!--messages-->
     <string name="success">Success</string>
@@ -42,18 +48,27 @@
     <string name="page_start">1</string>
     <string name="falsee">false</string>
 
-
-    <string name="data_successfully_added">Data successfully added</string>
-    <string name="season_init">S</string>
-    <string name="space">\u0020</string>
-    <string name="episode_init">E</string>
-    <string name="successfully_deleted">Successfully deleted</string>
-    <string name="fail_delete">Failed to delete</string>
-    <string name="no_entries_added">No TV show added</string>
+    <!--export-->
     <string name="user_data_sql">/userData.sql</string>
     <string name="tv_show_sql">/tvShow.sql</string>
     <string name="problem_at_export">There was a problem exporting data</string>
     <string name="database">Database</string>
     <string name="user_data_json">/userData.json</string>
     <string name="tv_show_json">/tvShow.json</string>
+    <string name="notification_title">notification title</string>
+    <string name="notification_text">noticifaction text</string>
+
+    <!--home-->
+    <string name="season_init">S</string>
+    <string name="space">\u0020</string>
+    <string name="episode_init">E</string>
+    <string name="successfully_deleted">Successfully deleted</string>
+    <string name="fail_delete">Failed to delete</string>
+    <string name="no_entries_added">No TV show added</string>
+
+    <!--notification-->
+    <string name="new_episode_arrival">New episode arrival</string>
+    <string name="notify_new_episode">Notifies when a new episode arrives</string>
+    <string name="new_episode">New Episode</string>
+
 </resources>

@@ -18,6 +18,7 @@ import com.example.seriestracker.R;
 import com.example.seriestracker.model.TvShow;
 import com.example.seriestracker.model.UserDataWithKey;
 import com.example.seriestracker.utils.GlobalValues;
+import com.google.android.gms.common.util.Strings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ public class DetailsActivity extends AppCompatActivity {
     private TextView tvTitle;
     private Spinner spinnerSeason;
     private RecyclerView recyclerView;
+    private IDetailsActivityPresenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,18 +41,24 @@ public class DetailsActivity extends AppCompatActivity {
         spinnerSeason = findViewById(R.id.spinnerSeason);
         recyclerView = findViewById(R.id.recyclerViewEpisodes);
 
+        presenter = new DetailsActivityPresenter(this);
+
         setUpView();
 
         spinnerSeason.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != 0) {
-                    List<UserDataWithKey> elements = getSeasonEpisodes(position);
-                    DetailsAdapter adapter = new DetailsAdapter(elements, DetailsActivity.this);
+                DetailsAdapter adapter;
 
-                    recyclerView.setLayoutManager(new LinearLayoutManager(DetailsActivity.this));
-                    recyclerView.setAdapter(adapter);
+                if (position != 0) {
+                    List<UserDataWithKey> elements = presenter.getSeasonEpisodes(position);
+                    adapter = new DetailsAdapter(elements, DetailsActivity.this);
+                } else {
+                    adapter = new DetailsAdapter(new ArrayList<>(), DetailsActivity.this);
                 }
+
+                recyclerView.setLayoutManager(new LinearLayoutManager(DetailsActivity.this));
+                recyclerView.setAdapter(adapter);
             }
 
             @Override
@@ -67,26 +75,6 @@ public class DetailsActivity extends AppCompatActivity {
         GlobalValues.TVSHOW = new TvShow();
     }
 
-    private List<UserDataWithKey> getSeasonEpisodes(int season) {
-        int id = GlobalValues.TVSHOW.getDbId();
-
-        List<UserDataWithKey> userDataWithKeys = new ArrayList<>();
-        for (UserDataWithKey udwk : GlobalValues.USERDATAS) {
-            if (udwk.getSeasonNumber() == season && udwk.getDbId() == id) {
-                userDataWithKeys.add(udwk);
-            }
-        }
-
-        userDataWithKeys.sort((o1, o2) -> {
-            Integer x1 = o1.getEpisodeNumber();
-            Integer x2 = o2.getEpisodeNumber();
-
-            return x1.compareTo(x2);
-        });
-
-        return userDataWithKeys;
-    }
-
     private void setUpView() {
         loadImage();
         tvTitle.setText(GlobalValues.TVSHOW.getName());
@@ -100,21 +88,11 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void setSpinnerData() {
+        List<String> dataArray = presenter.getStringArrayFromList();
+
         final ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, getStringArrayFromList());
+                android.R.layout.simple_spinner_item, dataArray);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerSeason.setAdapter(spinnerAdapter);
-    }
-
-    private List<String> getStringArrayFromList() {
-        List<String> array = new ArrayList<>();
-        int seasonNumber = GlobalValues.TVSHOW.getSeasonNumber();
-
-        array.add("Choose season");
-        for (int season = 1; season <= seasonNumber; ++season) {
-            array.add("Season ".concat(String.valueOf(season)));
-        }
-
-        return array;
     }
 }

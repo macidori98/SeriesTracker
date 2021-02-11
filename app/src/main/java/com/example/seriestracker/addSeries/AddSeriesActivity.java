@@ -95,12 +95,12 @@ public class AddSeriesActivity extends BaseActivity implements IAddSeriesView {
     }
 
     private void showAlertDialog(SearchSeries series) {
-        String message = getResources().getString(R.string.add_new_series).concat(" ").concat(series.getName()).concat("?");
+        String message = getResources().getString(R.string.add_new_series).concat(getString(R.string.space)).concat(series.getName()).concat(getString(R.string.question_mark));
 
         AlertDialog alertDialog = new AlertDialog.Builder(AddSeriesActivity.this).create();
         alertDialog.setTitle(R.string.add_series);
         alertDialog.setMessage(message);
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES",
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.yes),
                 (dialog, which) -> {
                     progressBar.setVisibility(View.VISIBLE);
                     recyclerView.setEnabled(false);
@@ -112,7 +112,7 @@ public class AddSeriesActivity extends BaseActivity implements IAddSeriesView {
 
                     dialog.dismiss();
                 });
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NO",
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.no),
                 ((dialog, which) -> dialog.dismiss()));
         alertDialog.show();
     }
