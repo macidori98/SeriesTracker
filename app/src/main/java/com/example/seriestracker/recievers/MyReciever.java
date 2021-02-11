@@ -1,4 +1,4 @@
-/*package com.example.seriestracker.recievers;
+package com.example.seriestracker.recievers;
 
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;
@@ -14,12 +14,20 @@ import com.example.seriestracker.R;
 import com.example.seriestracker.home.HomeActivity;
 import com.example.seriestracker.model.TvShow;
 import com.example.seriestracker.model.TvShowDetails;
+import com.example.seriestracker.movieDatabase.MovieApi;
+import com.example.seriestracker.movieDatabase.NetworkConnection;
 import com.example.seriestracker.utils.GlobalValues;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.internal.EverythingIsNonNull;
 
 public class MyReciever extends BroadcastReceiver {
     // Notification ID.
@@ -35,7 +43,7 @@ public class MyReciever extends BroadcastReceiver {
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         try {
-            checkIfDataHasChanged(context);
+            checkIfNotificationIsNeeded(context);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -43,7 +51,74 @@ public class MyReciever extends BroadcastReceiver {
         Log.d("PROBAA", "lefutott on recieve");
     }
 
-    private void checkIfDataHasChanged(Context context) throws ParseException {
+    private void checkIfNotificationIsNeeded(Context context) throws ParseException {
+        for (TvShowDetails tvShowDetails : GlobalValues.TV_SHOW_DETAILS) {
+            @SuppressLint("SimpleDateFormat")
+            Date date = Calendar.getInstance().getTime(); //new SimpleDateFormat("dd-MM-yyyy").parse(tvShowDetails.getNextEpisodeToAir().getAirDate());
+
+            Log.d("PROBAA", date.toString());
+            Log.d("PROBAA", Calendar.getInstance().getTime().toString());
+
+
+            if (date.compareTo(Calendar.getInstance().getTime()) == 0) {
+                deliverNotification(context, getTvShow(tvShowDetails.getId()).concat(" bla"));
+            }
+        }
+    }
+
+    private String getTvShow(int id) {
+        for (TvShow tvShow : GlobalValues.TVSHOWS) {
+            if (tvShow.getDbId() == id) {
+                return tvShow.getName();
+            }
+        }
+
+        return null;
+    }
+
+    /*private void addMissingTvShows() {
+        if (GlobalValues.TV_SHOW_DETAILS == null) {
+            GlobalValues.TV_SHOW_DETAILS = new ArrayList<>();
+        }
+
+        for (TvShow tvShow: GlobalValues.TVSHOWS) {
+            if (!isContainingTvShow(tvShow.getDbId())) {
+                addTvShowToDetails(tvShow.getDbId());
+            }
+        }
+    }
+
+    private boolean isContainingTvShow(int id) {
+        for (TvShowDetails tvShowDetails : GlobalValues.TV_SHOW_DETAILS) {
+            if (tvShowDetails.getId() == id) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void addTvShowToDetails(int id) {
+        Call<TvShowDetails> call = NetworkConnection.getRetrofit().getSeasonNumber(String.valueOf(id), GlobalValues.API_KEY, "en-US");
+        call.enqueue(new Callback<TvShowDetails>() {
+            @EverythingIsNonNull
+            @Override
+            public void onResponse(Call<TvShowDetails> call, Response<TvShowDetails> response) {
+                if (response.code() == GlobalValues.SUCCESSFUL_CODE) {
+                    TvShowDetails tvShowDetails = response.body();
+                    GlobalValues.TV_SHOW_DETAILS.add(tvShowDetails);
+                }
+            }
+
+            @EverythingIsNonNull
+            @Override
+            public void onFailure(Call<TvShowDetails> call, Throwable t) {
+
+            }
+        });
+    }
+
+    /*private void checkIfDataHasChanged(Context context) throws ParseException {
         if (GlobalValues.TVSHOWS != null) {
             for (int i = 0; i < GlobalValues.TVSHOWS.size(); ++i) {
                 TvShow tvShow = GlobalValues.TVSHOWS.get(i);
@@ -77,7 +152,7 @@ public class MyReciever extends BroadcastReceiver {
     }
 
     private void updateTvShowDetails(int id) {
-        /*boolean wasAdded = false;
+        boolean wasAdded = false;
 
         for (int i = 0; i < GlobalValues.TV_SHOW_DETAILS.size(); ++i) {
             TvShowDetails showDetails = GlobalValues.TV_SHOW_DETAILS.get(i);
@@ -92,7 +167,7 @@ public class MyReciever extends BroadcastReceiver {
         if (!wasAdded) {
             GlobalValues.TV_SHOW_DETAILS.add(details);
         }
-    }
+    }*/
 
     private void deliverNotification(Context context, String title) {
         Log.d("PROBAA", "lefutott deliver");
@@ -117,4 +192,4 @@ public class MyReciever extends BroadcastReceiver {
         // Deliver the notification
         mNotificationManager.notify(NOTIFICATION_ID, builder.build());
     }
-}*/
+}

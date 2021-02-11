@@ -65,7 +65,7 @@ public class GlobalValues {
 
     public static List<UserDataWithKey> USERDATAS;
     public static List<TvShow> TVSHOWS;
-   // public static List<TvShowDetails> TV_SHOW_DETAILS;
+    public static List<TvShowDetails> TV_SHOW_DETAILS;
     public static TvShow TVSHOW;
 
 }
