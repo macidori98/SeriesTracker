@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.seriestracker.R;
-import com.example.seriestracker.model.NextEpisode;
+import com.example.seriestracker.model.TvShowDetails;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -88,14 +88,14 @@ public class Util {
         editor.apply();
     }
 
-    public static List<NextEpisode> getList(Context context, String key) {
-        List<NextEpisode> arrayItems;
+    public static List<TvShowDetails> getList(Context context, String key) {
+        List<TvShowDetails> arrayItems;
         SharedPreferences sharedPreferences = context.getSharedPreferences(GlobalValues.USERS, Context.MODE_PRIVATE);
         String serializedObject = sharedPreferences.getString(key, null);
 
         if (serializedObject != null) {
             Gson gson = new Gson();
-            Type type = new TypeToken<List<NextEpisode>>() {
+            Type type = new TypeToken<List<TvShowDetails>>() {
             }.getType();
             arrayItems = gson.fromJson(serializedObject, type);
             return arrayItems;

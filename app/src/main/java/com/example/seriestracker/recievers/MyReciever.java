@@ -10,8 +10,9 @@ import android.content.Intent;
 import androidx.core.app.NotificationCompat;
 
 import com.example.seriestracker.R;
-import com.example.seriestracker.model.NextEpisode;
+import com.example.seriestracker.model.TvShowDetails;
 import com.example.seriestracker.splash.SplashscreenActivity;
+import com.example.seriestracker.utils.GlobalValues;
 import com.example.seriestracker.utils.Util;
 
 import java.text.SimpleDateFormat;
@@ -30,15 +31,14 @@ public class MyReciever extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         mNotificationManager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
-
         checkIfNotificationIsNeeded(context);
     }
 
     @SuppressLint("SimpleDateFormat")
     private void checkIfNotificationIsNeeded(Context context) {
-        List<NextEpisode> nextEpisodes = Util.getList(context, "tvShowList");
+        List<TvShowDetails> nextEpisodes = Util.getList(context, GlobalValues.TV_SHOW_LIST);
         if (nextEpisodes != null) {
-            for (NextEpisode nextEpisode : nextEpisodes) {
+            for (TvShowDetails nextEpisode : nextEpisodes) {
                 Date today;
                 String output;
                 SimpleDateFormat formatter;
@@ -47,7 +47,8 @@ public class MyReciever extends BroadcastReceiver {
                 today = new Date();
                 output = formatter.format(today);
 
-                if (output.compareTo(nextEpisode.getDate()) == 0) {
+                //if (output.compareTo(nextEpisode.getNextEpisodeToAir().getAirDate()) == 0) {
+                if (output.compareTo(output) == 0) {
                     deliverNotification(context, nextEpisode.getName());
                 }
             }

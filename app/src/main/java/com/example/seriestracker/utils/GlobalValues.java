@@ -1,7 +1,7 @@
 package com.example.seriestracker.utils;
 
-import com.example.seriestracker.model.NextEpisode;
 import com.example.seriestracker.model.TvShow;
+import com.example.seriestracker.model.TvShowDetails;
 import com.example.seriestracker.model.UserDataWithKey;
 
 import java.util.List;
@@ -59,6 +59,7 @@ public class GlobalValues {
             "INSERT INTO user_data (key, db_id, image_url, name, season_number, episode_number, user_id, liked, seen) VALUES";
 
     public static final String PRIMARY_CHANNEL_ID = "primary_notification_channel";
+    public static final String TV_SHOW_LIST = "tvShowList";
 
     public static String CURRENT_USER;
     public static String CURRENT_USER_ID;
@@ -66,5 +67,5 @@ public class GlobalValues {
     public static List<UserDataWithKey> USERDATAS;
     public static List<TvShow> TVSHOWS;
     public static TvShow TVSHOW;
-    public static List<NextEpisode> NEXT_EPISODES;
+    public static List<TvShowDetails> NEXT_EPISODES;
 }

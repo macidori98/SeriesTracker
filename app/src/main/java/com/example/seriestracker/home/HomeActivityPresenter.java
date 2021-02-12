@@ -58,6 +58,8 @@ public class HomeActivityPresenter implements IHomeActivityPresenter {
     @Override
     public void deleteTvShow(TvShow tvShow) {
         FirebaseHelper.getInstance().deleteShow(tvShow, this);
+        GlobalValues.NEXT_EPISODES = new ArrayList<>();
+        Util.setSharedPrefList(activity, "tvShowList", new ArrayList<>());
         new GetTvShowDetailsAsyncTask(activity).execute();
     }
 

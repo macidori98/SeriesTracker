@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.example.seriestracker.model.NextEpisode;
 import com.example.seriestracker.model.NextEpisodeToAir;
 import com.example.seriestracker.model.TvShow;
 import com.example.seriestracker.model.TvShowDetails;
@@ -49,25 +48,23 @@ public class GetTvShowDetailsAsyncTask extends AsyncTask<Void, Void, Void> {
                         if (date != null) {
                             boolean alreadyAdded = false;
                             for (int i = 0; i < GlobalValues.NEXT_EPISODES.size(); ++i) {
-                                NextEpisode ne = GlobalValues.NEXT_EPISODES.get(i);
+                                TvShowDetails ne = GlobalValues.NEXT_EPISODES.get(i);
 
-                                if (ne.getName().equals(tvShow.getName())) {
-                                    GlobalValues.NEXT_EPISODES.get(i).setDate(date.getAirDate());
+                                if (ne.getId() == tvShow.getDbId()) {
+                                    GlobalValues.NEXT_EPISODES.get(i).getNextEpisodeToAir().setAirDate(ne.getNextEpisodeToAir().getAirDate());
                                     alreadyAdded = true;
                                     break;
                                 }
                             }
 
                             if (!alreadyAdded) {
-                                NextEpisode nextEpisode = new NextEpisode(tvShow.getName(), date.getAirDate());
-
-                                GlobalValues.NEXT_EPISODES.add(nextEpisode);
+                                tvShowDetails.setName(tvShow.getName());
+                                GlobalValues.NEXT_EPISODES.add(tvShowDetails);
                             }
                         }
 
                         if (tvShow.getDbId() == GlobalValues.TVSHOWS.get(GlobalValues.TVSHOWS.size() - 1).getDbId()) {
-                            //elmenteni shared prefbe
-                            Util.setSharedPrefList(context, "tvShowList", GlobalValues.NEXT_EPISODES);
+                            Util.setSharedPrefList(context, GlobalValues.TV_SHOW_LIST, GlobalValues.NEXT_EPISODES);
                         }
 
                     }
