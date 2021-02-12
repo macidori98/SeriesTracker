@@ -7,7 +7,7 @@ import com.example.seriestracker.utils.GlobalValues;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailsActivityPresenter implements IDetailsActivityPresenter{
+public class DetailsActivityPresenter implements IDetailsActivityPresenter {
     private final DetailsActivity activity;
 
     public DetailsActivityPresenter(DetailsActivity activity) {

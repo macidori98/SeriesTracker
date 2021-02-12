@@ -12,7 +12,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.seriestracker.R;
+import com.example.seriestracker.model.NextEpisode;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
+import java.util.List;
 import java.util.Objects;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -27,6 +32,7 @@ public class Util {
         return string.length() >= GlobalValues.MIN_STRING_LENGTH;
     }
 
+    @SuppressWarnings("deprecation")
     @SuppressLint("NonConstantResourceId")
     public static void makeToast(Context context, int textId, int backgroundColor) {
         Toast toast = Toast.makeText(context, textId, Toast.LENGTH_SHORT);
@@ -69,5 +75,32 @@ public class Util {
             view = new View(activity);
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    public static <T> void setSharedPrefList(Context context, String key, List<T> list) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(GlobalValues.USERS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        Gson gson = new Gson();
+        String json = gson.toJson(list);
+
+        editor.putString(key, json);
+        editor.apply();
+    }
+
+    public static List<NextEpisode> getList(Context context, String key) {
+        List<NextEpisode> arrayItems;
+        SharedPreferences sharedPreferences = context.getSharedPreferences(GlobalValues.USERS, Context.MODE_PRIVATE);
+        String serializedObject = sharedPreferences.getString(key, null);
+
+        if (serializedObject != null) {
+            Gson gson = new Gson();
+            Type type = new TypeToken<List<NextEpisode>>() {
+            }.getType();
+            arrayItems = gson.fromJson(serializedObject, type);
+            return arrayItems;
+        }
+
+        return null;
     }
 }

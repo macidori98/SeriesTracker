@@ -9,8 +9,10 @@ import androidx.core.content.ContextCompat;
 import com.example.seriestracker.helper.FirebaseHelper;
 import com.example.seriestracker.model.TvShow;
 import com.example.seriestracker.model.UserDataWithKey;
+import com.example.seriestracker.utils.ActivityManager;
 import com.example.seriestracker.utils.ExportData;
 import com.example.seriestracker.utils.GlobalValues;
+import com.example.seriestracker.utils.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,7 @@ public class HomeActivityPresenter implements IHomeActivityPresenter {
         FirebaseHelper.getInstance().getUserTvShows(this);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void fetchTvShowsDone(List<TvShow> tvShows, List<UserDataWithKey> userData) {
         if (tvShows == null) {
@@ -44,14 +47,18 @@ public class HomeActivityPresenter implements IHomeActivityPresenter {
         } else {
             GlobalValues.TVSHOWS = tvShows;
         }
+
+        //start async task for notification
+        new GetTvShowDetailsAsyncTask(activity).execute();
+
         activity.setUpRecyclerView(tvShows, userData);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void deleteTvShow(TvShow tvShow) {
         FirebaseHelper.getInstance().deleteShow(tvShow, this);
-
-        //deleteShowFromTvShowDetails(tvShow.getDbId());
+        new GetTvShowDetailsAsyncTask(activity).execute();
     }
 
     @Override
@@ -70,13 +77,16 @@ public class HomeActivityPresenter implements IHomeActivityPresenter {
         }
     }
 
-    /*private void deleteShowFromTvShowDetails(int id) {
-        for (int i = 0; i < GlobalValues.TV_SHOW_DETAILS.size(); ++i) {
-            TvShowDetails details = GlobalValues.TV_SHOW_DETAILS.get(i);
-            if (details.getId() == id) {
-                GlobalValues.TV_SHOW_DETAILS.remove(i);
-                break;
-            }
-        }
-    }*/
+    @Override
+    public void logout() {
+        GlobalValues.CURRENT_USER = GlobalValues.CURRENT_USER_ID = "";
+
+        Util.setSharedPref(activity, GlobalValues.NAME, "");
+        Util.setSharedPref(activity, GlobalValues.USER_ID, "");
+
+        Util.setSharedPrefList(activity, "tvShowList", new ArrayList<>());
+
+        ActivityManager.startLoginActivity(activity);
+        activity.finish();
+    }
 }

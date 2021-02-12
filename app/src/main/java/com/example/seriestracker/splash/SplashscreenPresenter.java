@@ -7,9 +7,11 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.CountDownTimer;
+import android.os.SystemClock;
 
 import com.example.seriestracker.R;
 import com.example.seriestracker.home.HomeActivity;
+import com.example.seriestracker.recievers.MyReciever;
 import com.example.seriestracker.utils.GlobalValues;
 import com.example.seriestracker.utils.Util;
 
@@ -50,7 +52,7 @@ public class SplashscreenPresenter implements ISpalshscreenPresenter {
 
     @Override
     public void setUpNotification() {
-        /*Intent notifyIntent = new Intent(activity, MyReciever.class);
+        Intent notifyIntent = new Intent(activity, MyReciever.class);
 
         final PendingIntent notifyPendingIntent = PendingIntent.getBroadcast
                 (activity, NOTIFICATION_ID, notifyIntent,
@@ -59,13 +61,12 @@ public class SplashscreenPresenter implements ISpalshscreenPresenter {
         final AlarmManager alarmManager = (AlarmManager) activity.getSystemService
                 (ALARM_SERVICE);
 
-        long repeatInterval = 1000;
-
         if (alarmManager != null) {
-            alarmManager.setInexactRepeating
-                    (AlarmManager.RTC_WAKEUP,
-                            repeatInterval, repeatInterval,
-                            notifyPendingIntent);
+            alarmManager.setInexactRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    SystemClock.elapsedRealtime() + AlarmManager.INTERVAL_HALF_DAY,
+                    AlarmManager.INTERVAL_HALF_DAY,
+                    notifyPendingIntent);
         }
 
         createNotificationChannel();
@@ -91,7 +92,7 @@ public class SplashscreenPresenter implements ISpalshscreenPresenter {
             notificationChannel.enableVibration(true);
             notificationChannel.setDescription(activity.getResources().getString(R.string.notify_new_episode));
             mNotificationManager.createNotificationChannel(notificationChannel);
-        }*/
+        }
     }
 
     private boolean checkIfUserAlreadyLoggedIn() {

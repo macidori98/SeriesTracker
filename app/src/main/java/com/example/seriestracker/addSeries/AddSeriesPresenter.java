@@ -140,8 +140,6 @@ public class AddSeriesPresenter implements IAddSeriesPresenter {
                 if (response.code() == GlobalValues.SUCCESSFUL_CODE) {
                     TvShowDetails detail = response.body();
 
-                    //saveTvShowDetails(detail);
-
                     int number = Objects.requireNonNull(detail).getNumberOfSeasons();
                     FirebaseHelper.getInstance().checkIfUserAlreadyAddedTvShow(new TvShow("", GlobalValues.CURRENT_USER_ID, series.getName(),
                             series.getId(), series.getImage(), number), AddSeriesPresenter.this);
@@ -172,23 +170,4 @@ public class AddSeriesPresenter implements IAddSeriesPresenter {
             userDataList.add(data);
         }
     }
-
-    /*private void saveTvShowDetails(TvShowDetails details) {
-        boolean alreadyAdded = false;
-
-        if (GlobalValues.TV_SHOW_DETAILS == null) {
-            GlobalValues.TV_SHOW_DETAILS = new ArrayList<>();
-        }
-
-        for (TvShowDetails tsd : GlobalValues.TV_SHOW_DETAILS) {
-            if (tsd.getId() == details.getId()) {
-                alreadyAdded = true;
-                break;
-            }
-        }
-
-        if (!alreadyAdded) {
-            GlobalValues.TV_SHOW_DETAILS.add(details);
-        }
-    }*/
 }

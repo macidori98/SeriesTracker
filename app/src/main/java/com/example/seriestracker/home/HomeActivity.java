@@ -22,7 +22,6 @@ import com.example.seriestracker.common.BaseActivity;
 import com.example.seriestracker.model.TvShow;
 import com.example.seriestracker.model.UserDataWithKey;
 import com.example.seriestracker.utils.ActivityManager;
-import com.example.seriestracker.utils.GlobalValues;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -130,11 +129,7 @@ public class HomeActivity extends BaseActivity implements IHomeActivityView {
     private void setOnClickListeners() {
         fabAdd.setOnClickListener(v -> ActivityManager.startAddSeriesActivity(HomeActivity.this));
 
-        ibLogout.setOnClickListener(v -> {
-            GlobalValues.CURRENT_USER = GlobalValues.CURRENT_USER_ID = "";
-            ActivityManager.startLoginActivity(HomeActivity.this);
-            HomeActivity.this.finish();
-        });
+        ibLogout.setOnClickListener(v -> presenter.logout());
 
         ibExport.setOnClickListener(v -> presenter.checkPermission());
     }

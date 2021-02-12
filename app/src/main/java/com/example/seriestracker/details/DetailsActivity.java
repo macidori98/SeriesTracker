@@ -18,7 +18,6 @@ import com.example.seriestracker.R;
 import com.example.seriestracker.model.TvShow;
 import com.example.seriestracker.model.UserDataWithKey;
 import com.example.seriestracker.utils.GlobalValues;
-import com.google.android.gms.common.util.Strings;
 
 import java.util.ArrayList;
 import java.util.List;
