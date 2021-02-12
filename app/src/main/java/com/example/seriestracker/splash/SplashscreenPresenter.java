@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.CountDownTimer;
+import android.os.SystemClock;
 
 import com.example.seriestracker.R;
 import com.example.seriestracker.home.HomeActivity;
@@ -61,15 +62,10 @@ public class SplashscreenPresenter implements ISpalshscreenPresenter {
                 (ALARM_SERVICE);
 
         if (alarmManager != null) {
-            /*alarmManager.setInexactRepeating(
+            alarmManager.setInexactRepeating(
                     AlarmManager.RTC_WAKEUP,
                     SystemClock.elapsedRealtime() + AlarmManager.INTERVAL_HALF_DAY,
                     AlarmManager.INTERVAL_HALF_DAY,
-                    notifyPendingIntent);*/
-            alarmManager.setInexactRepeating(
-                    AlarmManager.RTC_WAKEUP,
-                    1000,
-                    1000,
                     notifyPendingIntent);
         }
 

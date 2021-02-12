@@ -44,6 +44,8 @@ public class GetTvShowDetailsAsyncTask extends AsyncTask<Void, Void, Void> {
                     if (response.code() == GlobalValues.SUCCESSFUL_CODE) {
                         TvShowDetails tvShowDetails = response.body();
 
+                        checkForNewData(tvShowDetails);
+
                         NextEpisodeToAir date = tvShowDetails.getNextEpisodeToAir();
                         if (date != null) {
                             boolean alreadyAdded = false;
@@ -79,5 +81,16 @@ public class GetTvShowDetailsAsyncTask extends AsyncTask<Void, Void, Void> {
         }
 
         return null;
+    }
+
+    private void checkForNewData(TvShowDetails tvShowDetails) {
+        for (int i = 0; i < GlobalValues.NEXT_EPISODES.size(); ++i) {
+            TvShowDetails ne = GlobalValues.NEXT_EPISODES.get(i);
+
+            if (ne.getId() == tvShowDetails.getId() && ne.getNumberOfSeasons() < tvShowDetails.getNumberOfSeasons()) {
+                new UploadNewSeasonAsyncTask(ne.getId(), ne.getNumberOfSeasons()).execute();
+                break;
+            }
+        }
     }
 }

@@ -129,6 +129,21 @@ public class FirebaseHelper {
         }
     }
 
+    public void addUserData(List<UserData> data) {
+        databaseReference = database.getReference(GlobalValues.USER_DATA);
+
+        for (UserData userData : data) {
+            String id = databaseReference.push().getKey();
+
+            if (userData.getName().equals(data.get(data.size() - 1).getName())) {
+                databaseReference.child(Objects.requireNonNull(id)).setValue(userData);
+            } else {
+                databaseReference.child(Objects.requireNonNull(id)).setValue(userData);
+            }
+
+        }
+    }
+
     public void getUserTvShows(IHomeActivityPresenter presenter) {
         final List<TvShow> tvShows = new ArrayList<>();
         databaseReference = database.getReference(GlobalValues.TV_SHOWS);
