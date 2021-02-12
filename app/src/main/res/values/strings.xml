@@ -70,5 +70,6 @@
     <string name="new_episode_arrival">New episode arrival</string>
     <string name="notify_new_episode">Notifies when a new episode arrives</string>
     <string name="new_episode">New Episode</string>
+    <string name="waiting_for_new_season">Waiting for new season</string>
 
 </resources>

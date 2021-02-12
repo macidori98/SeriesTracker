@@ -63,7 +63,12 @@ public class SeriesCardAdapter extends RecyclerView.Adapter<SeriesCardAdapter.Vi
                         .concat(context.getResources().getString(R.string.episode_init))
                         .concat(String.valueOf(ud.getEpisodeNumber()));
                 holder.tvStatus.setText(status);
+                holder.tvContinue.setVisibility(View.VISIBLE);
                 break;
+            }
+            if (ud.getKey().equals(data.get(data.size()-1).getKey())) {
+                holder.tvStatus.setText(R.string.waiting_for_new_season);
+                holder.tvContinue.setVisibility(View.INVISIBLE);
             }
         }
 
@@ -108,6 +113,7 @@ public class SeriesCardAdapter extends RecyclerView.Adapter<SeriesCardAdapter.Vi
         private final ImageView ivCover;
         private final TextView tvTitle;
         private final TextView tvStatus;
+        private final TextView tvContinue;
         private final ImageButton ibDetails;
 
         public ViewHolder(@NonNull View itemView) {
@@ -115,6 +121,7 @@ public class SeriesCardAdapter extends RecyclerView.Adapter<SeriesCardAdapter.Vi
             ivCover = itemView.findViewById(R.id.imageViewCover);
             tvTitle = itemView.findViewById(R.id.textViewTitle);
             tvStatus = itemView.findViewById(R.id.textViewStatus);
+            tvContinue = itemView.findViewById(R.id.textViewContinueWatching);
             ibDetails = itemView.findViewById(R.id.imageButtonDetails);
 
             itemView.setOnClickListener(v -> {
