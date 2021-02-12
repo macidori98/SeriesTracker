@@ -64,8 +64,8 @@ public class SplashscreenPresenter implements ISpalshscreenPresenter {
         if (alarmManager != null) {
             alarmManager.setInexactRepeating(
                     AlarmManager.RTC_WAKEUP,
-                    SystemClock.elapsedRealtime() + AlarmManager.INTERVAL_HALF_DAY,
-                    AlarmManager.INTERVAL_HALF_DAY,
+                    SystemClock.elapsedRealtime() + AlarmManager.INTERVAL_HOUR,
+                    AlarmManager.INTERVAL_HOUR,
                     notifyPendingIntent);
         }
 

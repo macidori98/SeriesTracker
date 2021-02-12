@@ -47,8 +47,8 @@ public class MyReciever extends BroadcastReceiver {
                 today = new Date();
                 output = formatter.format(today);
 
-                //if (output.compareTo(nextEpisode.getNextEpisodeToAir().getAirDate()) == 0) {
-                if (output.compareTo(output) == 0) {
+                if (output.compareTo(nextEpisode.getNextEpisodeToAir().getAirDate()) == 0) {
+                //if (output.compareTo(output) == 0) {
                     deliverNotification(context, nextEpisode.getName());
                 }
             }
