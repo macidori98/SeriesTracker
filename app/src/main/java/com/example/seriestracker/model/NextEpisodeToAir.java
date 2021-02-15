@@ -28,12 +28,12 @@ public class NextEpisodeToAir {
     private String stillPath;
 
     @SerializedName("vote_average")
-    private int voteAverage;
+    private double voteAverage;
 
     @SerializedName("vote_count")
     private int voteCount;
 
-    public NextEpisodeToAir(String airDate, int episodeNumber, int id, String name, String overview, String productionCode, int seasonNumber, String stillPath, int voteAverage, int voteCount) {
+    public NextEpisodeToAir(String airDate, int episodeNumber, int id, String name, String overview, String productionCode, int seasonNumber, String stillPath, double voteAverage, int voteCount) {
         this.airDate = airDate;
         this.episodeNumber = episodeNumber;
         this.id = id;
@@ -110,7 +110,7 @@ public class NextEpisodeToAir {
         this.stillPath = stillPath;
     }
 
-    public int getVoteAverage() {
+    public double getVoteAverage() {
         return voteAverage;
     }
 
