@@ -2,6 +2,7 @@ package com.example.seriestracker.addSeries;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
@@ -91,6 +92,16 @@ public class AddSeriesActivity extends BaseActivity implements IAddSeriesView {
             Util.hideKeyboard(this);
 
             presenter.search(name);
+        });
+
+        etTitle.setOnKeyListener((v, keyCode, event) -> {
+            if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                String title = etTitle.getText().toString();
+                presenter.search(title);
+                return true;
+            }
+
+            return false;
         });
     }
 

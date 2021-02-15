@@ -43,7 +43,7 @@ public class MyReciever extends BroadcastReceiver {
                 String output;
                 SimpleDateFormat formatter;
 
-                formatter = new SimpleDateFormat("dd-MM-yyyy");
+                formatter = new SimpleDateFormat("yyyy-MM-dd");
                 today = new Date();
                 output = formatter.format(today);
 
