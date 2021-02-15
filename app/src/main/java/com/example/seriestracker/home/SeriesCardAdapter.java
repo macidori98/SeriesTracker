@@ -66,7 +66,7 @@ public class SeriesCardAdapter extends RecyclerView.Adapter<SeriesCardAdapter.Vi
                 holder.tvContinue.setVisibility(View.VISIBLE);
                 break;
             }
-            if (ud.getKey().equals(data.get(data.size()-1).getKey())) {
+            if (ud.getKey().equals(data.get(data.size() - 1).getKey())) {
                 holder.tvStatus.setText(R.string.waiting_for_new_season);
                 holder.tvContinue.setVisibility(View.INVISIBLE);
             }

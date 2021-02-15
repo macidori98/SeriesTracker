@@ -51,7 +51,9 @@ public class HomeActivityPresenter implements IHomeActivityPresenter {
         //start async task for notification
         new GetTvShowDetailsAsyncTask(activity).execute();
 
-        activity.setUpRecyclerView(tvShows, userData);
+        if (tvShows != null) {
+            activity.setUpRecyclerView(tvShows, userData);
+        }
     }
 
     @SuppressWarnings("deprecation")
@@ -59,7 +61,7 @@ public class HomeActivityPresenter implements IHomeActivityPresenter {
     public void deleteTvShow(TvShow tvShow) {
         FirebaseHelper.getInstance().deleteShow(tvShow, this);
         GlobalValues.NEXT_EPISODES = new ArrayList<>();
-        Util.setSharedPrefList(activity, "tvShowList", new ArrayList<>());
+        Util.setSharedPrefList(activity, GlobalValues.TV_SHOW_LIST, new ArrayList<>());
         new GetTvShowDetailsAsyncTask(activity).execute();
     }
 
@@ -86,7 +88,7 @@ public class HomeActivityPresenter implements IHomeActivityPresenter {
         Util.setSharedPref(activity, GlobalValues.NAME, "");
         Util.setSharedPref(activity, GlobalValues.USER_ID, "");
 
-        Util.setSharedPrefList(activity, "tvShowList", new ArrayList<>());
+        Util.setSharedPrefList(activity, GlobalValues.TV_SHOW_LIST, new ArrayList<>());
 
         ActivityManager.startLoginActivity(activity);
         activity.finish();
